@@ -18,6 +18,29 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class CoCoEditor extends HttpServlet {
 
+    public static CoCoEditor instance;
+    
+    private static PrintWriter lastOut;
+    
+    private static void setInstance(CoCoEditor instance) {
+        System.out.println("Setting isntance");
+        CoCoEditor.instance = instance;
+    }
+    
+    
+    public void printError(String msg) {
+        lastOut.println("Encountered error: " + msg);
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -29,8 +52,18 @@ public class CoCoEditor extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        setInstance(this);
         response.setContentType("text/html;charset=UTF-8");
+        
         try (PrintWriter out = response.getWriter()) {
+            CoCoEditor.lastOut = out;
+            
+            if (DatabaseStatus.instance().hasSession("invalidsession")) {
+                out.println("Returned true on invalid session!!!!!!!!");
+            } else {
+                out.println("Returned false. :)");
+            }
+            
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
