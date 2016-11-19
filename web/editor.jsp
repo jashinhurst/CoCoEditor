@@ -9,7 +9,15 @@ and open the template in the editor.
     <head>
         <script>
             function show_hide(div_id) {
-                var item = document.getElementById(div_id);
+                var dropdowns = document.getElementsByClassName('dropdown');
+                
+                for (var i = 0; i < dropdowns.length; i++) {
+                    if (dropdowns[i].getAttribute("id") === div_id && dropdowns[i].style.display !== 'block') {
+                        dropdowns[i].style.display = 'block';
+                    } else {
+                        dropdowns[i].style.display = 'none';
+                    }
+                }
             }
         </script>
         <title>[session name]</title>
@@ -21,7 +29,7 @@ and open the template in the editor.
         <div id="editor">
                 <ul id="navbar">
                     <li 
-                        <a onclick="show_hide('file_drop')" class="dropdownbtn">File</a>
+                        <a onclick="show_hide('file_drop')">File</a>
                         <div id="file_drop" class="dropdown">
                             <a href="#">Download</a>
                             <a href="#">Quit</a>
