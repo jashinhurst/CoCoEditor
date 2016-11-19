@@ -8,14 +8,8 @@ and open the template in the editor.
 <html>
     <head>
         <script>
-            function show_hide() {
-                var item = document.getElementById("stat_view");
-                if (item.style.display !== 'block') {
-                    item.style.display = 'block';
-                }
-                else {
-                    item.style.display = 'none';
-                }
+            function show_hide(div_id) {
+                var item = document.getElementById(div_id);
             }
         </script>
         <title>[session name]</title>
@@ -25,12 +19,36 @@ and open the template in the editor.
     </head>
     <body>
         <div id="editor">
-            <ul id="navbar">
-                <li>File</li>
-                <li>Edit</li>
-                <li onclick="show_hide()">View</li>
-                <li>Help</li>
-            </ul>
+                <ul id="navbar">
+                    <li 
+                        <a onclick="show_hide('file_drop')" class="dropdownbtn">File</a>
+                        <div id="file_drop" class="dropdown">
+                            <a href="#">Download</a>
+                            <a href="#">Quit</a>
+                        </div>
+                    </li>
+                    <li>
+                        <a  onclick="show_hide('edit_drop')">Edit</a>
+                        <div id="edit_drop" class="dropdown">
+                            <a href="#">Download</a>
+                            <a href="#">Quit</a>
+                        </div>
+                    </li>
+                    <li 
+                        <a onclick="show_hide('view_drop')">View</a>
+                        <div id="view_drop" class="dropdown">
+                            <a href="#">Download</a>
+                            <a href="#">Quit</a>
+                        </div>
+                    </li>
+                    <li>
+                        <a  onclick="show_hide('help_drop')">Help</a>
+                        <div id="help_drop" class="dropdown">
+                            <a href="#">Download</a>
+                            <a href="#">Quit</a>
+                        </div>
+                    </li>
+                </ul>
             <form>
                 <textarea rows="10" cols="100">//Sample code&#13;int main(void)&#13;{&#13;&nbsp;&nbsp;&nbsp;&nbsp;printf("hello world\n");&#13;&nbsp;&nbsp;&nbsp;&nbsp;return 0;&#13;}</textarea>
             </form>

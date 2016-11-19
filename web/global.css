@@ -1,20 +1,44 @@
 #navbar {
     list-style-type: none;
-    margin: 10;
+    margin: 0;
     padding: 0;
+    overflow: hidden;
+    background-color: #335;
 }
 
 #navbar li {
-    display: inline;
-    padding: 10px;
-    background-color: white;
-}
-
-#navbar li:hover {
-    background-color: black;
+    display: inline-block;
+    background-color: #335;
     color: white;
 }
 
+#navbar li a{
+    padding: 10px;
+}
+#navbar li:hover {
+    background-color: white;
+    color: black;
+}
+
+#navbar .dropdown {
+    display: none;
+    position: absolute;
+    background-color: #335;
+    min-width: 80px;
+}
+
+#navbar .dropdown a {
+    color: white;
+    padding: 8px 10px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+}
+
+#navbar .dropdown a:hover {
+    background-color: white;
+    color: black;
+}
 #stat_view {
     position: absolute;
     left: 500px;
