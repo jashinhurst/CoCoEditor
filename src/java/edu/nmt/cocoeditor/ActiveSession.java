@@ -43,10 +43,9 @@ public class ActiveSession extends DBAccessor {
             ResultSet rs = statement.executeQuery(query);
             if (!rs.next()) {
                 CoCoEditor.instance.printError("Invalid session ID");
-                return null;
-            }
-            
-            text = rs.getString(1);
+                text = null;
+            } else
+                text = rs.getString(1);
         } catch (SQLException e) {
             e.printStackTrace();
             CoCoEditor.instance.printError("Failed in query operations");
@@ -87,10 +86,9 @@ public class ActiveSession extends DBAccessor {
             ResultSet rs = statement.executeQuery(query);
             if (!rs.next()) {
                 CoCoEditor.instance.printError("Invalid session ID");
-                return null;
-            }
-            
-            text = rs.getString(1);
+                text = null;
+            } else
+                text = rs.getString(1);
         } catch (SQLException e) {
             e.printStackTrace();
             CoCoEditor.instance.printError("Failed in query operations");
