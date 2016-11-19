@@ -12,19 +12,55 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 /**
- * Stores information about an active session.
- * Provides access to the data a little easier
+ * A user's wrapper. Provides interface inter user data
  * @author Skyler
  */
-public class ActiveSession extends DBAccessor {
+public class User extends DBAccessor {
     
-    private String sessionID;
+    private String userID;
     
-    public ActiveSession(String sessionID) {
-           this.sessionID = sessionID;
+    public User(String userID) {
+           this.userID = userID;
     }
     
-    public String getText() {
+    public void submit(String sessionID, String alias) {
+        Connection c = getConnection();
+        if (c == null) {
+            CoCoEditor.instance.printError("Failed to open session connection");
+            return;
+        }
+        
+        Statement statement = null;
+        
+        try {
+            statement = c.createStatement();
+            String query = "INSERT INTO cocousers "
+                    + "VALUES ('" + userID + "', '" + sessionID + "', '" 
+                    + alias + "');";
+            
+
+            statement.executeQuery(query);
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+            CoCoEditor.instance.printError("Failed in query operations");
+            return;
+        }
+        
+        
+        try {
+            if (statement != null)
+                statement.close();
+            
+            c.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            CoCoEditor.instance.printError("Failed to close database connection");
+            return;
+        }
+    }
+    
+    public String getAlias() {
         Connection c = getConnection();
         if (c == null) {
             CoCoEditor.instance.printError("Failed to open session connection");
@@ -36,9 +72,9 @@ public class ActiveSession extends DBAccessor {
         
         try {
             statement = c.createStatement();
-            String query = "SELECT text "
-                    + "FROM cocosessions "
-                    + "WHERE sessionId = " + sessionID + ";";
+            String query = "SELECT alias "
+                    + "FROM cocousers "
+                    + "WHERE userId = " + userID + ";";
             
 
             ResultSet rs = statement.executeQuery(query);
@@ -67,7 +103,7 @@ public class ActiveSession extends DBAccessor {
         return text;
     }
     
-    public Date getLastModified() {
+    public Date getSessionID() {
         Connection c = getConnection();
         if (c == null) {
             CoCoEditor.instance.printError("Failed to open session connection");
@@ -79,9 +115,9 @@ public class ActiveSession extends DBAccessor {
         
         try {
             statement = c.createStatement();
-            String query = "SELECT lastModified "
-                    + "FROM cocosessions "
-                    + "WHERE sessionId = " + sessionID + ";";
+            String query = "SELECT sessionId "
+                    + "FROM cocousers "
+                    + "WHERE userId = " + userID + ";";
             
 
             ResultSet rs = statement.executeQuery(query);

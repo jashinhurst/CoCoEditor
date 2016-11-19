@@ -8,8 +8,8 @@ package edu.nmt.cocoeditor;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.security.SecureRandom;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -22,11 +22,14 @@ import javax.servlet.http.HttpServletResponse;
 public class CoCoEditor extends HttpServlet {
 
     public static final int KEY_FETCH_TIMEOUT = 500;
+    public static final int KEY_SESSION_LENGTH = 24;
+    public static final int KEY_USER_LENGTH = 18;
     
     public static CoCoEditor instance;
     private static PrintWriter lastOut;
     
-    private List<ActiveSession> sessions;
+    private Map<String, ActiveSession> sessions;
+    private Map<String, User> users;
     
     private static void setInstance(CoCoEditor instance) {
         System.out.println("Setting isntance");
@@ -41,7 +44,7 @@ public class CoCoEditor extends HttpServlet {
     private static final SecureRandom random = new SecureRandom();
     private static char[] charset;
     
-    private static String generateSessionKey() {
+    private static String generateKey(int length) {
         if (charset == null) {
             charset = new char[62];
             int i = 0;
@@ -57,11 +60,10 @@ public class CoCoEditor extends HttpServlet {
         }
         
         
-        int len = 24;
         String ret = "";
-        while (len > 0) {
+        while (length > 0) {
             ret += charset[random.nextInt(52)];
-            len--;
+            length--;
         }
             
         return ret;
@@ -77,14 +79,14 @@ public class CoCoEditor extends HttpServlet {
      * @return the session ID
      **/
     public String createSession() {
-        String id = generateSessionKey();
+        String id = generateKey(KEY_SESSION_LENGTH);
         int i = 0;
         while (DatabaseStatus.instance().hasSession(id)) {
             if (i > KEY_FETCH_TIMEOUT) {
                 printError("Failed to generate unique session key in time");
                 return null;
             }
-            id = generateSessionKey();
+            id = generateKey(KEY_SESSION_LENGTH);
             i++;
         }
         
@@ -93,13 +95,32 @@ public class CoCoEditor extends HttpServlet {
         return id;
     }
 
-//    /**
-//     * Forwards the user to a session, with the alias in the request
-//     * @param sessionID
-//     * @param alias the alias to enter the session with
-//     * @return the new user ID for the added user in the session
-//     **/
-//    public String submit(String sessionID, String alias);
+    /**
+     * Forwards the user to a session, with the alias in the request
+     * @param sessionID
+     * @param alias the alias to enter the session with
+     * @return the new user ID for the added user in the session
+     **/
+    public String submit(String sessionID, String alias) {
+        //check if session exists, then gen user and return id
+        if (!DatabaseStatus.instance().hasSession(sessionID)) {
+            printError("Could not locate session from submit id: " + sessionID);
+            return null;
+        }
+        
+        String userID = generateKey(KEY_USER_LENGTH);
+        if (userID == null) {
+            printError("Failed generating user ID");
+            return null;
+        }
+        
+        User user = new User(userID);
+        user.submit(sessionID, alias);
+        
+        addUser(userID, user);
+        
+        return userID;
+    }
 //
 //
 //
@@ -152,11 +173,17 @@ public class CoCoEditor extends HttpServlet {
     // Intenral methods
     private void addSession(String sessionID) {
         if (sessions == null)
-            sessions = new LinkedList<>();
+            sessions = new HashMap<>();
         
-        sessions.add(new ActiveSession(sessionID));
+        sessions.put(sessionID, new ActiveSession(sessionID));
     }
     
+    private void addUser(String userID, User user) {
+        if (users == null)
+            users = new HashMap<>();
+        
+        users.put(userID, user);
+    }
     
     
     
