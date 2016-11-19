@@ -20,6 +20,8 @@ public class CoCoEditor extends HttpServlet {
 
     public static CoCoEditor instance;
     
+    private static PrintWriter lastOut;
+    
     private static void setInstance(CoCoEditor instance) {
         CoCoEditor.instance = instance;
     }
@@ -30,7 +32,7 @@ public class CoCoEditor extends HttpServlet {
     }
     
     public void printError(String msg) {
-        
+        lastOut.println("Encountered error: " + msg);
     }
     
     /**
@@ -46,6 +48,9 @@ public class CoCoEditor extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
+            CoCoEditor.lastOut = out;
+            
+            
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
