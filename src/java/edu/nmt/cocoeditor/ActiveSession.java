@@ -10,7 +10,7 @@ package edu.nmt.cocoeditor;
  * Provides access to the data a little easier
  * @author Skyler
  */
-public class ActiveSession {
+public class ActiveSession extends DBAccessor {
     
     private String sessionID;
     

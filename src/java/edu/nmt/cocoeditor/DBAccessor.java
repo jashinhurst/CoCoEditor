@@ -15,11 +15,11 @@ import java.sql.SQLException;
  */
 public abstract class DBAccessor {
     
-    private static final String URL = "jdbc:mysql://localhost:3306/apollo8_CoCoEditor";
+    private static final String URL = "jdbc:mysql://localhost:3306/apollo8_cocoeditor";
     
-    private static final String USERNAME = "apollo8";
+    private static final String USERNAME = "root";
     
-    private static final String PASSWORD = "";
+    private static final String PASSWORD = "data4me";
     
     protected Connection getConnection() {
         
