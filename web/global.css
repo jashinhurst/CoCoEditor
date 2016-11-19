@@ -1,0 +1,32 @@
+#navbar {
+    list-style-type: none;
+    margin: 10;
+    padding: 0;
+}
+
+#navbar li {
+    display: inline;
+    padding: 10px;
+    background-color: white;
+}
+
+#navbar li:hover {
+    background-color: black;
+    color: white;
+}
+
+#stat_view {
+    position: absolute;
+    left: 500px;
+    display: none;
+    padding: 0px;
+    margin: 0px;
+}
+
+#stats_img {
+    height: 600px;
+}
+
+textarea {
+    float: left;
+}
