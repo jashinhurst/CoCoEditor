@@ -18,6 +18,21 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class CoCoEditor extends HttpServlet {
 
+    public static CoCoEditor instance;
+    
+    private static void setInstance(CoCoEditor instance) {
+        CoCoEditor.instance = instance;
+    }
+    
+    public CoCoEditor() {
+        super();
+        CoCoEditor.setInstance(instance);
+    }
+    
+    public void printError(String msg) {
+        
+    }
+    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
