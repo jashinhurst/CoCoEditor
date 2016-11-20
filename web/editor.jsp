@@ -20,7 +20,7 @@ and open the template in the editor.
                 }
             }
             window.onclick = function(e) {
-                if (!e.target.matches('.dropbtn') {
+                if (e.target.className !== "dropbtn") {
                     var dropdowns = document.getElementsByClassName('dropdown');
                 
                     for (var i = 0; i < dropdowns.length; i++) {
@@ -36,15 +36,39 @@ and open the template in the editor.
     </head>
     <body>
         <div id="editor">
-                <ul id="navbar">
-                    <li>
-                        <a href="javascript:void(0)" onclick="show_hide('file_drop')" class="dropbtn">File</a>
-                        <div id="file_drop" class="dropdown">
-                            <a href="#">Download</a>
-                            <a href="#">Quit</a>
-                        </div>
-                    </li>
-                </ul>
+            <div id="header">
+                <img src="Logomakr_9FtNKi.png" alt="icon">
+            </div>
+            <ul id="navbar">
+                <li>
+                    <a href="javascript:void(0)" onclick="show_hide('file_drop')" class="dropbtn">File</a>
+                    <div id="file_drop" class="dropdown">
+                        <a href="#">Download</a>
+                        <a href="#">Quit</a>
+                    </div>
+                </li>
+                <li>
+                    <a href="javascript:void(0)" onclick="show_hide('edit_drop')" class="dropbtn">Edit</a>
+                    <div id="edit_drop" class="dropdown">
+                        <a href="#">Download</a>
+                        <a href="#">Quit</a>
+                </li>
+                <li>
+                    <a href="javascript:void(0)" onclick="show_hide('view_drop')" class="dropbtn">View</a>
+                    <div id="view_drop" class="dropdown">
+                        <a href="#">Download</a>
+                        <a href="#">Quit</a>
+                    </div>
+                </li>
+                <li>
+                    <a href="javascript:void(0)" onclick="show_hide('help_drop')" class="dropbtn">Help</a>
+                    <div id="help_drop" class="dropdown">
+                        <a href="#">Download</a>
+                        <a href="#">Quit</a>
+                    </div>
+                </li>
+            </ul>
+            <textarea></textarea>
         </div>
     </body>
 </html>
