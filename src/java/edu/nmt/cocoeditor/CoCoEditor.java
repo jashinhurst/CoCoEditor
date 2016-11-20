@@ -18,7 +18,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- *
+ * The serverlet itself. Contains all of the interface methods we set up.
+ * @note this implementation is unsuited for actual deployment, since it
+ *       ignores existing data in the database and assumes it's empty on
+ *       startup. It should (design decision) load up all sessions on startup
+ *       and use those. We didn't need that since sessions would assumedly die
+ *       when the serverlet dies.
  * @author Skyler
  */
 public class CoCoEditor extends HttpServlet {
@@ -43,7 +48,7 @@ public class CoCoEditor extends HttpServlet {
         lastOut.println("Encountered error: " + msg);
     }
     
-    private static final SecureRandom random = new SecureRandom();
+    private static final SecureRandom S_RAND = new SecureRandom();
     private static char[] charset;
     
     private static String generateKey(int length) {
@@ -64,7 +69,7 @@ public class CoCoEditor extends HttpServlet {
         
         String ret = "";
         while (length > 0) {
-            ret += charset[random.nextInt(52)];
+            ret += charset[S_RAND.nextInt(52)];
             length--;
         }
             
