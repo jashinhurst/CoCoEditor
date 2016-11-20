@@ -8,6 +8,8 @@ package edu.nmt.cocoeditor;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.security.SecureRandom;
+import java.sql.Date;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 import javax.servlet.ServletException;
@@ -175,7 +177,9 @@ public class CoCoEditor extends HttpServlet {
         if (sessions == null)
             sessions = new HashMap<>();
         
-        sessions.put(sessionID, new ActiveSession(sessionID));
+        ActiveSession session = new ActiveSession(sessionID);
+        session.submit("", new Date(Calendar.getInstance().getTime().getTime()));
+        sessions.put(sessionID, session);
     }
     
     private void addUser(String userID, User user) {

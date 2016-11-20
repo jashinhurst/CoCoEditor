@@ -24,6 +24,43 @@ public class ActiveSession extends DBAccessor {
            this.sessionID = sessionID;
     }
     
+    public void submit(String text, Date date) {
+        Connection c = getConnection();
+        if (c == null) {
+            CoCoEditor.instance.printError("Failed to open session connection");
+            return;
+        }
+        
+        Statement statement = null;
+        
+        try {
+            statement = c.createStatement();
+            String query = "INSERT INTO cocosessions "
+                    + "VALUES ('" + sessionID + "', '" + text + "', '" 
+                    + date + "');";
+            
+
+            statement.executeUpdate(query);
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+            CoCoEditor.instance.printError("Failed in query operations");
+            return;
+        }
+        
+        
+        try {
+            if (statement != null)
+                statement.close();
+            
+            c.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            CoCoEditor.instance.printError("Failed to close database connection");
+            return;
+        }
+    }
+    
     public String getText() {
         Connection c = getConnection();
         if (c == null) {
