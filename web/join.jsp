@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="edu.nmt.cocoeditor.CoCoEditor"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -15,5 +16,10 @@
     </head>
     <body>
         <h1>Join</h1>
+        <form onsubmit="">
+            <strong>Alias: </strong>
+            <input type="text" value="John Doe" required>
+            <button type="submit">Join Session</button>
+        </form>
     </body>
 </html>
