@@ -22,7 +22,6 @@
         </form>
         <%
             if(request.getParameter("alias") !=null){
-                    request.setAttribute("alias", request.getParameter("alias"));
                     CoCoEditor setup = new CoCoEditor();
                     String sessionID = setup.createSession();
                     String alias = request.getParameter("alias");

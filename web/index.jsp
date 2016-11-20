@@ -18,7 +18,6 @@
         <% 
             request.setAttribute("sid", request.getParameter("sid"));
             if(request.getAttribute("sid") != null){
-                request.setAttribute("sid",request.getParameter("sid"));
                 response.sendRedirect("./join.jsp");
             }else{
                 response.sendRedirect("./create.jsp");
