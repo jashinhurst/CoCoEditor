@@ -37,6 +37,20 @@ body {
     width: auto;
 }
 
+#session_link {
+    position: relative;
+    bottom: 30px;
+    left: 30px;
+    display: inline;
+    background-color: #cccccc;
+}
+
+#session_url {
+    textdecoration: underline;
+    display: none;
+    background-color: white;
+}
+
 #navbar .dropdown {
     display: none;
     position: absolute;
@@ -46,10 +60,11 @@ body {
 
 #navbar .dropdown a {
     color: white;
-    padding: 8px 10px;
+    padding: 2px 4px;
     text-decoration: none;
     display: block;
     text-align: left;
+    font-size: small;
 }
 
 #navbar .dropdown a:hover {

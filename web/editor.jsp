@@ -1,10 +1,11 @@
 
 <!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
+<%-- 
+    Document   : editor.jsp
+    Created on : Nov 19, 2016, 2:27:21 PM
+    Author     : jashinhurst
+--%>
+<%@page import="edu.nmt.cocoeditor.CoCoEditor"%>
 <html>
     <head>
         <script>
@@ -38,6 +39,7 @@ and open the template in the editor.
         <div id="editor">
             <div id="header">
                 <img src="Logomakr_9FtNKi.png" alt="icon">
+                <span id="session_link"> LINK: <div id="session_url">https://weave.cs.nmt.edu/apollo.8/project/editor.jsp?sid=<%= request.getParameter("sid") %></div> </span>
             </div>
             <ul id="navbar">
                 <li>
