@@ -15,15 +15,9 @@
         <h1> Welcome to Collaborative Code Editor!<br>
              We are redirecting you, please wait :)
         </h1>
-        <% 
-            request.setAttribute("sid", request.getParameter("sid"));
-            if(request.getAttribute("sid") != null){
-                request.setAttribute("sid",request.getParameter("sid"));
-                response.sendRedirect("./join.jsp");
-            }else{
-                response.sendRedirect("./create.jsp");
-            }
-        %>
+        
+        <!-- Snip redirect code, moving to serverlet -sm -->
+        
         <h2>
             If you are have not redirected and are seeing this, please click
             <a href="./create.jsp">here</a>

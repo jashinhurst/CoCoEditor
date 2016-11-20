@@ -18,11 +18,27 @@ import java.sql.Statement;
 public class User extends DBAccessor {
     
     private String userID;
+    private boolean valid;
     
     public User(String userID) {
            this.userID = userID;
+           valid = false;
     }
     
+    public boolean isValid() {
+        return valid;
+    }
+    
+    public void invalidate() {
+        valid = false;
+    }
+    
+    /**
+     * Submits the user to the database, and marks their cache profile (this)
+     * as valid.
+     * @param sessionID
+     * @param alias 
+     */
     public void submit(String sessionID, String alias) {
         Connection c = getConnection();
         if (c == null) {
@@ -58,6 +74,8 @@ public class User extends DBAccessor {
             CoCoEditor.instance.printError("Failed to close database connection");
             return;
         }
+        
+        valid = true;
     }
     
     public String getAlias() {

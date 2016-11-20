@@ -12,10 +12,12 @@ import java.sql.Date;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  * The serverlet itself. Contains all of the interface methods we set up.
@@ -209,7 +211,29 @@ public class CoCoEditor extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         setInstance(this);
+        System.err.flush();
         response.setContentType("text/html;charset=UTF-8");
+        
+        HttpSession session = request.getSession();
+        
+        if (session.getAttribute(AttributeNames.USER_ID.getKey()) == null) {
+            //new user. Bounce to join pages
+            directCreate(request, response);
+            return;
+        }
+        
+        //else, they have a user ID. Try to get their user cache
+        User user = users.get(
+                session.getAttribute(AttributeNames.USER_ID.getKey()).toString());
+        if (!user.isValid()) {
+            //have user, but it's invalid. Bounce to create
+            directCreate(request, response);
+            return;
+        }
+        
+        //have valid user id. Move to edit page
+        directEdit(request, response);
+        
         
         try (PrintWriter out = response.getWriter()) {
             CoCoEditor.lastOut = out;
@@ -227,6 +251,62 @@ public class CoCoEditor extends HttpServlet {
             out.println("</body>");
             out.println("</html>");
         }
+    }
+    
+    private void directCreate(HttpServletRequest request, HttpServletResponse response) {
+        
+//        int index = request.getRequestURL().indexOf("/CoCoEditor/");
+//        String requestURL = request.getRequestURL().substring(
+//                index + 12 //12 is size of /CoCoEditor/
+//        );
+//        System.out.println("query: [" + requestURL + "]");
+//        //return;
+        
+        //clean up any session attributes we may have
+        HttpSession session = request.getSession();
+        session.removeAttribute(AttributeNames.USER_ID.getKey());
+        
+        String url;
+          
+
+        //request.setAttribute("sid", request.getParameter("sid"));
+        if(session.getAttribute(AttributeNames.SESSION_ID.getKey()) != null) {
+            //This is stored in the session now
+            //response.setAttribute("sid",request.getParameter("sid"));
+
+            //make sure it's an active session
+            if (!DatabaseStatus.instance().hasSession(
+                session.getAttribute(AttributeNames.SESSION_ID.getKey()).toString()
+            )) {
+                //has session key, but it's invalid.
+                //Clean it and bounce to create.
+                session.removeAttribute(AttributeNames.SESSION_ID.getKey());
+                url = "create.jsp";
+                //response.sendRedirect("./create.jsp");
+            } else
+                url = "join.jsp";
+                //response.sendRedirect("./join.jsp");
+        } else {
+            url = "create.jsp";
+            //response.sendRedirect("./create.jsp");
+        }
+        
+//        if (requestURL.equalsIgnoreCase(url)) {
+//            return;
+//        }
+        
+        RequestDispatcher dispatcher = request.getRequestDispatcher(url);
+        
+        try {
+            dispatcher.include(request, response);
+        } catch (ServletException|IOException e) {
+            printError("Failed with redirection.");
+            printError("<a href='./join.jsp'>Click here to be redirected</a>");
+        }
+    }
+    
+    private void directEdit(HttpServletRequest request, HttpServletResponse response) {
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
