@@ -4,6 +4,7 @@
     padding: 0;
     overflow: hidden;
     background-color: #335;
+    font-family: Lucida Sans Unicode;
 }
 
 #navbar li {
@@ -14,8 +15,10 @@
 
 #navbar li a{
     padding: 10px;
+    text-decoration: none;
+    color: white;
 }
-#navbar li:hover {
+#navbar li a:hover {
     background-color: white;
     color: black;
 }
@@ -38,6 +41,7 @@
 #navbar .dropdown a:hover {
     background-color: white;
     color: black;
+    display: block;
 }
 #stat_view {
     position: absolute;

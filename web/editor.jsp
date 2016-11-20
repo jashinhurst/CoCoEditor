@@ -19,6 +19,15 @@ and open the template in the editor.
                     }
                 }
             }
+            window.onclick = function(e) {
+                if (!e.target.matches('.dropbtn') {
+                    var dropdowns = document.getElementsByClassName('dropdown');
+                
+                    for (var i = 0; i < dropdowns.length; i++) {
+                        dropdowns[i].style.display = 'none';
+                    }
+                }
+            }
         </script>
         <title>[session name]</title>
         <meta charset="UTF-8">
@@ -28,38 +37,14 @@ and open the template in the editor.
     <body>
         <div id="editor">
                 <ul id="navbar">
-                    <li 
-                        <a onclick="show_hide('file_drop')">File</a>
+                    <li>
+                        <a href="javascript:void(0)" onclick="show_hide('file_drop')" class="dropbtn">File</a>
                         <div id="file_drop" class="dropdown">
                             <a href="#">Download</a>
                             <a href="#">Quit</a>
                         </div>
                     </li>
-                    <li>
-                        <a  onclick="show_hide('edit_drop')">Edit</a>
-                        <div id="edit_drop" class="dropdown">
-                            <a href="#">Download</a>
-                            <a href="#">Quit</a>
-                        </div>
-                    </li>
-                    <li 
-                        <a onclick="show_hide('view_drop')">View</a>
-                        <div id="view_drop" class="dropdown">
-                            <a href="#">Download</a>
-                            <a href="#">Quit</a>
-                        </div>
-                    </li>
-                    <li>
-                        <a  onclick="show_hide('help_drop')">Help</a>
-                        <div id="help_drop" class="dropdown">
-                            <a href="#">Download</a>
-                            <a href="#">Quit</a>
-                        </div>
-                    </li>
                 </ul>
-            <form>
-                <textarea rows="10" cols="100">//Sample code&#13;int main(void)&#13;{&#13;&nbsp;&nbsp;&nbsp;&nbsp;printf("hello world\n");&#13;&nbsp;&nbsp;&nbsp;&nbsp;return 0;&#13;}</textarea>
-            </form>
         </div>
     </body>
 </html>
