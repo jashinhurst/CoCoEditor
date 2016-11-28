@@ -4,7 +4,6 @@
     Author     : chavezfk
 --%>
 <%@page language="java" contentType="text/html" pageEncoding="UTF-8" %>
-<%@page import="edu.nmt.cocoeditor.CoCoEditor"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -15,21 +14,11 @@
     </head>
     <body>
         <h1>Create</h1>
-        <form method="get">
+        <form action="redirect.jsp" method="get">
             <strong>Alias: </strong>
-            <input type="text" name="alias" required>
-            <button id="btnsubmit"type="submit">Create Session</button>
+            <input type="text" name=<%= edu.nmt.cocoeditor.AttributeNames.ALIAS_ID.getKey() %> required>
+            <button id="btnsubmit" type="submit">Create Session</button>
         </form>
-        <%
-            if(request.getParameter("alias") !=null){
-                    CoCoEditor setup = new CoCoEditor();
-                    String sessionID = setup.createSession();
-                    String alias = request.getParameter("alias");
-                    request.setAttribute("sid", sessionID);
-                    request.setAttribute("uid", setup.submit(sessionID, alias));
-                    response.sendRedirect("./editor.jsp");
-                }
-        %>
     </body>
     
 </html>

@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="edu.nmt.cocoeditor.AttributeNames" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -16,8 +17,9 @@
              We are redirecting you, please wait :)
         </h1>
         <% 
-            request.setAttribute("sid", request.getParameter("sid"));
-            if(request.getAttribute("sid") != null){
+            String sid = AttributeNames.SESSION_ID.getKey();
+            session.setAttribute(sid, request.getParameter(sid));
+            if(session.getAttribute(sid) != null){
                 response.sendRedirect("./join.jsp");
             }else{
                 response.sendRedirect("./create.jsp");

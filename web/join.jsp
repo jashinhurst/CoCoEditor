@@ -5,20 +5,19 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page import="edu.nmt.cocoeditor.CoCoEditor"%>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" type="text/css" href="global.css">
         <title>CoCo Editor</title>
     </head>
     <body>
         <h1>Join</h1>
-        <form onsubmit="">
+        <form action="redirect.jsp">
             <strong>Alias: </strong>
-            <input type="text" value="John Doe" required>
+            <input type="text" name=<%= edu.nmt.cocoeditor.AttributeNames.ALIAS_ID.getKey() %>value="John Doe" required>
             <button type="submit">Join Session</button>
         </form>
     </body>

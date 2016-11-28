@@ -11,6 +11,7 @@ package edu.nmt.cocoeditor;
  */
 public enum AttributeNames {
     SESSION_ID("sid"),
+    ALIAS_ID("alias"),
     USER_ID("uid");
     
     private String key;
