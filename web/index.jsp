@@ -22,7 +22,8 @@
             if(session.getAttribute(sid) != null){
                 response.sendRedirect("./join.jsp");
             }else{
-                response.sendRedirect("https://weave.cs.nmt.edu/apollo.8/CoCoEditor/create.jsp");
+                //response.sendRedirect("https://weave.cs.nmt.edu/apollo.8/CoCoEditor/create.jsp");
+                response.sendRedirect("./create.jsp");
             }
         %>
         <h2>

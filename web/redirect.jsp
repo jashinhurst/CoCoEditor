@@ -4,6 +4,7 @@
     Author     : chavezfk
 --%>
 
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="edu.nmt.cocoeditor.AttributeNames" %>
 <%@page import="edu.nmt.cocoeditor.CoCoEditor" %>
@@ -19,12 +20,13 @@
             String sid = AttributeNames.SESSION_ID.getKey();
             String aid = AttributeNames.ALIAS_ID.getKey();
             if(request.getParameter(aid) != null){
-                out.println("here <br>");
+                out.println("create: ");
                 String sessionID = CoCoEditor.instance.createSession();
-                String alias = request.getParameter(aid);
-                session.setAttribute(sid, sessionID);
-                session.setAttribute(uid, CoCoEditor.instance.submit(sessionID, alias));
-                response.sendRedirect("./editor.jsp");
+                out.println(sessionID +"<br>");
+                //String alias = request.getParameter(aid);
+                //session.setAttribute(sid, sessionID);
+                //session.setAttribute(uid, CoCoEditor.instance.submit(sessionID, alias));
+                //response.sendRedirect("./editor.jsp");
             }
             out.println("session id: ");
             out.println(session.getAttribute("sid"));

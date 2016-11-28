@@ -89,6 +89,7 @@ public class CoCoEditor extends HttpServlet {
         String id = generateKey(KEY_SESSION_LENGTH);
         int i = 0;
         while (DatabaseStatus.instance().hasSession(id)) {
+           
             if (i > KEY_FETCH_TIMEOUT) {
                 printError("Failed to generate unique session key in time");
                 return null;
@@ -96,7 +97,7 @@ public class CoCoEditor extends HttpServlet {
             id = generateKey(KEY_SESSION_LENGTH);
             i++;
         }
-        
+        System.out.println("here with id: " + id);
         addSession(id);
         
         return id;
