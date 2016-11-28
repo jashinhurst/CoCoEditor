@@ -20,11 +20,10 @@
             String aid = AttributeNames.ALIAS_ID.getKey();
             if(request.getParameter(aid) != null){
                 out.println("here <br>");
-                CoCoEditor setup = new CoCoEditor();
-                String sessionID = setup.createSession();
+                String sessionID = CoCoEditor.instance.createSession();
                 String alias = request.getParameter(aid);
                 session.setAttribute(sid, sessionID);
-                session.setAttribute(uid, setup.submit(sessionID, alias));
+                session.setAttribute(uid, CoCoEditor.instance.submit(sessionID, alias));
                 response.sendRedirect("./editor.jsp");
             }
             out.println("session id: ");

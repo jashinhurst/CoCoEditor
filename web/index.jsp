@@ -17,12 +17,12 @@
              We are redirecting you, please wait :)
         </h1>
         <% 
-            String sid = AttributeNames.SESSION_ID.getKey();
+            String sid = edu.nmt.cocoeditor.AttributeNames.SESSION_ID.getKey();
             session.setAttribute(sid, request.getParameter(sid));
             if(session.getAttribute(sid) != null){
                 response.sendRedirect("./join.jsp");
             }else{
-                response.sendRedirect("./create.jsp");
+                response.sendRedirect("https://weave.cs.nmt.edu/apollo.8/CoCoEditor/create.jsp");
             }
         %>
         <h2>
