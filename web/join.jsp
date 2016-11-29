@@ -14,11 +14,35 @@
         <title>CoCo Editor</title>
     </head>
     <body>
-        <h1>Join</h1>
-        <form action="redirect.jsp">
-            <strong>Alias: </strong>
-            <input type="text" name=<%= edu.nmt.cocoeditor.AttributeNames.ALIAS_ID.getKey() %>value="John Doe" required>
-            <button type="submit">Join Session</button>
-        </form>
+        <div id="header">
+            <img src="logo.png" />
+        </div>
+        <div id="title">
+            CoCo Editor
+        </div>
+        <div id="subtitle">
+            Join Session
+        </div>
+        
+        <div id="info">
+            <p>
+                Here are some instructions: Take the banana firmly in your hands, and peel it. Then, ingest.
+            </p>
+            
+        </div>
+        <div>
+            <form action="redirect.jsp" method="post">
+            <center>
+                <strong>Session ID: </strong><br />
+                <input type="text" name="<%= edu.nmt.cocoeditor.AttributeNames.SESSION_ID.getKey() %>" required><br />
+                <strong>Alias: </strong><br />
+                <input type="text" name="<%= edu.nmt.cocoeditor.AttributeNames.ALIAS_ID.getKey() %>" required>
+            </center>
+            <br />
+            <center>
+                <button id="btnsubmit" type="submit">Join Session</button>
+            </center>
+            </form>
+        </div>
     </body>
 </html>

@@ -7,6 +7,82 @@ body {
 #editor{
     height: 100%;
 }
+
+#title {
+    font-size: 42pt;
+    font-weight: bold;
+    text-align: center;
+    padding-top: 30px;
+}
+
+#subtitle {
+    font-size: 24pt;
+    text-align: center;
+    padding-top: 5px;
+    color: #333333;
+    padding-bottom: 20px;
+}
+
+#btnsubmit {
+    background-color: #335;
+    color: white;
+    border-color: #335;
+    border-style: none;
+}
+
+#btnsubmit:hover {
+    background-color: white;
+    color: black;
+}
+
+#info {
+    margin-left: 25%;
+    margin-right: 25%;
+    font-size: 10pt;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+#content {
+    text-align: center;
+}
+
+#contentspread {
+    width: 100px;
+}
+
+#createbutton {
+    display: inline-block;
+    background-color: #335;
+    color: white;
+    width: 100px;
+    height: 45px;
+    text-align: center;
+    padding-top: 7px;
+    padding-bottom: 2px;
+}
+
+#createbutton:hover {
+    background-color: white;
+    color: black;
+}
+
+#joinbutton {
+    display: inline-block;
+    background-color: #335;
+    color: white;
+    width: 100px;
+    height: 45px;
+    text-align: center;
+    padding-top: 7px;
+    padding-bottom: 2px;
+}
+
+#joinbutton:hover {
+    background-color: white;
+    color: black;
+}
+
 #navbar {
     list-style-type: none;
     margin: 0;

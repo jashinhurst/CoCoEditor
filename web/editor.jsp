@@ -30,7 +30,7 @@
                 }
             }
         </script>
-        <title>[session name]</title>
+        <title>CoCo Editor</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" type="text/css" href="global.css">
@@ -40,7 +40,7 @@
     <body>
         <div id="editor" style="height: 82vh">
             <div id="header">
-                <img src="Logomakr_9FtNKi.png" alt="icon">
+                <img src="logo.png" alt="icon">
                 <span id="session_link"> Session ID: <div id="session_url"><%= session.getAttribute(sid) %></div> </span>
             </div>
             <ul id="navbar">

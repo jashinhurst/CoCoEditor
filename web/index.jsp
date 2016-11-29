@@ -9,13 +9,14 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <link rel="icon" href="logo.png" />
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" type="text/css" href="global.css" />
         <title>CoCo Editor</title>
     </head>
     <body>
         <div id="header">
-            <img src="Logomakr_9FtNKi.png" />
+            <img src="logo.png" />
         </div>
         <div id="title">
             CoCo Editor
@@ -30,12 +31,11 @@
         </div>
         
         <div id="content">
-            
+            <a href="create.jsp"><div id="createbutton">Create A Session</div></a>
+            <span style="width: 50px;">&nbsp;</span>
+            <a href="join.jsp"><div id="joinbutton">Join Your Friends</div></a>
         </div>
         
-        <span>
-            
-        </span>
         <%-- 
             String sid = edu.nmt.cocoeditor.AttributeNames.SESSION_ID.getKey();
             session.setAttribute(sid, request.getAttribute(sid));
@@ -53,9 +53,5 @@
                 response.sendRedirect("./create.jsp");
             }
         --%>
-        <h2>
-            If you are have not redirected and are seeing this, please click
-            <a href="./create.jsp">here</a>
-        </h2>
     </body>
 </html>

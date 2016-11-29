@@ -14,13 +14,31 @@
     </head>
     <body>
         <div id="header">
-        <h1>Create</h1>
+            <img src="logo.png" />
+        </div>
+        <div id="title">
+            CoCo Editor
+        </div>
+        <div id="subtitle">
+            Create Session
+        </div>
+        
+        <div id="info">
+            <p>
+                Here are some instructions: Take the banana firmly in your hands, and peel it. Then, ingest.
+            </p>
+            
         </div>
         <div>
             <form action="redirect.jsp" method="post">
-            <strong>Alias: </strong>
-            <input type="text" name="<%= edu.nmt.cocoeditor.AttributeNames.ALIAS_ID.getKey() %>" required>
-            <button id="btnsubmit" type="submit">Create Session</button>
+            <center>
+                <strong>Alias: </strong><br />
+                <input type="text" name="<%= edu.nmt.cocoeditor.AttributeNames.ALIAS_ID.getKey() %>" required>
+            </center>
+            <br />
+            <center>
+                <button id="btnsubmit" type="submit">Create Session</button>
+            </center>
             </form>
         </div>
     </body>
