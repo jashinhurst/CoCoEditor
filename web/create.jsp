@@ -13,11 +13,15 @@
         <title>CoCoEditor</title>
     </head>
     <body>
+        <div id="header">
         <h1>Create</h1>
-        <form action="redirect.jsp" method="get">
+        </div>
+        <div>
+            <form action="redirect.jsp" method="post">
             <strong>Alias: </strong>
             <input type="text" name="<%= edu.nmt.cocoeditor.AttributeNames.ALIAS_ID.getKey() %>" required>
             <button id="btnsubmit" type="submit">Create Session</button>
-        </form>
+            </form>
+        </div>
     </body>
 </html>

@@ -15,14 +15,20 @@
             out.println("session id: ");
             out.println(session.getAttribute("sid"));
             out.println("<br>");
+            out.println("request alias by param: ");
+            out.println(request.getParameter("alias"));
+            out.println("<br>");
+            out.println("request alias by att: ");
+            out.println(request.getAttribute("alias"));
+            out.println("<br>");
 
             String uid = AttributeNames.USER_ID.getKey();
             String sid = AttributeNames.SESSION_ID.getKey();
             String aid = AttributeNames.ALIAS_ID.getKey();
             if(request.getParameter(aid) != null){
                 out.println("create: ");
-                String sessionID = CoCoEditor.instance.createSession();
-                out.println(sessionID +"<br>");
+                //String sessionID = CoCoEditor.instance.createSession();
+                //out.println(sessionID +"<br>");
                 //String alias = request.getParameter(aid);
                 //session.setAttribute(sid, sessionID);
                 //session.setAttribute(uid, CoCoEditor.instance.submit(sessionID, alias));

@@ -34,12 +34,14 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" type="text/css" href="global.css">
+        <%@page import="edu.nmt.cocoeditor.AttributeNames" %>
+        <% String sid = AttributeNames.SESSION_ID.getKey(); %>
     </head>
     <body>
-        <div id="editor">
+        <div id="editor" style="height: 82vh">
             <div id="header">
                 <img src="Logomakr_9FtNKi.png" alt="icon">
-                <span id="session_link"> LINK: <div id="session_url">https://weave.cs.nmt.edu/apollo.8/project/editor.jsp?sid=<%= request.getParameter("sid") %></div> </span>
+                <span id="session_link"> Session ID: <div id="session_url"><%= session.getAttribute(sid) %></div> </span>
             </div>
             <ul id="navbar">
                 <li>
@@ -70,7 +72,19 @@
                     </div>
                 </li>
             </ul>
-            <textarea></textarea>
+        <div style="height: 100%;" id="textarea">function foo(items) {
+            var x = "All this is syntax highlighted";
+            return x;
+        }</div>
+            
         </div>
+        
+    
+        <script src="./ace-builds-1.2.5/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
+        <script>
+            var editor = ace.edit("textarea");
+            editor.setTheme("ace/theme/monokai");
+            editor.getSession().setMode("ace/mode/javascript");
+        </script>
     </body>
 </html>
