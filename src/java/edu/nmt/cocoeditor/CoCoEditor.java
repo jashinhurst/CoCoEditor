@@ -33,23 +33,24 @@ public class CoCoEditor extends HttpServlet {
     public static final int KEY_USER_LENGTH = 18;
     
     public static CoCoEditor instance;
-    private static PrintWriter lastOut;
+    public static PrintWriter lastOut;
     
     private Map<String, ActiveSession> sessions;
     private Map<String, User> users;
     
-    public static void checkInstance(){
-        if(CoCoEditor.instance == null){
-            CoCoEditor.instance = new CoCoEditor();
-        }
-    }
-    
-    private static void setInstance(CoCoEditor instance) {
+    public static void setInstance(CoCoEditor instance) {
         System.out.println("Setting isntance");
         CoCoEditor.instance = instance;
     }
-    
-    
+    public static CoCoEditor getInstance() {
+        return instance;
+    }
+    public static PrintWriter getLastOut(){
+        return lastOut;
+    }
+    public static void setLastOut(PrintWriter p){
+        lastOut = p;
+    }
     public void printError(String msg) {
         lastOut.println("Encountered error: " + msg);
     }

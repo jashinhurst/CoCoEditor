@@ -16,9 +16,15 @@
         <title>CoCo Editor</title>
     </head>
     <body>
-        <%  if(CoCoEditor.instance == null){
+        <%  /*if(CoCoEditor.instance== null){
                 CoCoEditor.instance = new CoCoEditor();
-        }
+        }*/
+            if(CoCoEditor.getInstance() == null){
+                CoCoEditor.setInstance(new CoCoEditor());
+            }
+            if(CoCoEditor.getLastOut() == null){
+                CoCoEditor.setLastOut(response.getWriter()); //= response.getWriter();
+            }
         %>
         <div id="header">
             <a href="index.jsp" ><img src="logo.png" /></a>
