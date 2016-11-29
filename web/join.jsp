@@ -26,7 +26,8 @@
         
         <div id="info">
             <p>
-                Here are some instructions: Take the banana firmly in your hands, and peel it. Then, ingest.
+                To join an active session, enter the session ID and your desired
+                alias below.
             </p>
             
         </div>

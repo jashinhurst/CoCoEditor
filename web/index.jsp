@@ -21,7 +21,7 @@
         <div id="title">
             CoCo Editor
         </div>
-        
+        <br /><br />
         <div id="info">
             <p>
                 CoCo Editor is a collaborative browser-based program that
