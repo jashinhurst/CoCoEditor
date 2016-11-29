@@ -6,17 +6,22 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="edu.nmt.cocoeditor.AttributeNames" %>
+<%@page import="edu.nmt.cocoeditor.CoCoEditor" %>
 <!DOCTYPE html>
 <html>
     <head>
-        <link rel="icon" href="logodark.png" />
+        <link rel="icon" href="logodark.png"/>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" type="text/css" href="global.css" />
         <title>CoCo Editor</title>
     </head>
     <body>
+        <%  if(CoCoEditor.instance == null){
+                CoCoEditor.instance = new CoCoEditor();
+        }
+        %>
         <div id="header">
-            <img src="logo.png" />
+            <a href="index.jsp" ><img src="logo.png" /></a>
         </div>
         <div id="title">
             CoCo Editor
@@ -24,8 +29,11 @@
         <br /><br />
         <div id="info">
             <p>
-                CoCo Editor is a collaborative browser-based program that
-                will allow you to work with your colleagues on small pieces of code
+                CoCo Editor is a collaborative browser-based program where you
+                and your colleagues can work together on small, generally single
+                file coding projects. <br>
+                To host a session click "Create A Session." <br>
+                To join an already running session, click "Join Your Friends."
             </p>
             
         </div>
@@ -35,23 +43,8 @@
             <span style="width: 50px;">&nbsp;</span>
             <a href="join.jsp"><div id="joinbutton">Join Your Friends</div></a>
         </div>
-        
-        <%-- 
-            String sid = edu.nmt.cocoeditor.AttributeNames.SESSION_ID.getKey();
-            session.setAttribute(sid, request.getAttribute(sid));
-            out.println("request att id: ");
-            out.println(request.getAttribute(sid));
-            out.println("<br>");
-            out.println("request param id: ");
-            out.println(request.getParameter(sid));
-            out.println("<br>");
-            if(session.getAttribute(sid) != null){
-                response.sendRedirect("./join.jsp");
-                //response.sendRedirect("https://weave.cs.nmt.edu/apollo.8/CoCoEditor/join.jsp");
-            }else{
-                //response.sendRedirect("https://weave.cs.nmt.edu/apollo.8/CoCoEditor/create.jsp");
-                response.sendRedirect("./create.jsp");
-            }
-        --%>
+        <h4>Please Note:</h4>
+        <p>Currently under development: Collaborative capabilities are very
+        limited at the moment, but will be working soon! :)</p>
     </body>
 </html>

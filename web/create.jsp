@@ -15,7 +15,7 @@
     </head>
     <body>
         <div id="header">
-            <img src="logo.png" />
+            <a href="index.jsp" ><img src="logo.png" /></a>
         </div>
         <div id="title">
             CoCo Editor

@@ -17,9 +17,9 @@ public abstract class DBAccessor {
     
     private static final String URL = "jdbc:mysql://localhost:3306/apollo8_cocoeditor";
     
-    private static final String USERNAME = "root";
+    private static final String USERNAME = "apollo8";
     
-    private static final String PASSWORD = "data4me";
+    private static final String PASSWORD = "uUJ9CTNiMe";
     
     protected Connection getConnection() {
         

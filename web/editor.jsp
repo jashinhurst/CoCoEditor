@@ -39,9 +39,9 @@
         <% String sid = AttributeNames.SESSION_ID.getKey(); %>
     </head>
     <body>
-        <div id="editor" style="height: 82vh">
+        <div id="editor">
             <div id="header">
-                <img src="logo.png" alt="icon">
+                <a href="index.jsp" ><img src="logo.png" /></a>
                 <span id="session_link"> Session ID: <div id="session_url"><%= session.getAttribute(sid) %></div> </span>
             </div>
             <ul id="navbar">

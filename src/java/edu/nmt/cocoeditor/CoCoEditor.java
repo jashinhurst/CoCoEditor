@@ -38,6 +38,12 @@ public class CoCoEditor extends HttpServlet {
     private Map<String, ActiveSession> sessions;
     private Map<String, User> users;
     
+    public static void checkInstance(){
+        if(CoCoEditor.instance == null){
+            CoCoEditor.instance = new CoCoEditor();
+        }
+    }
+    
     private static void setInstance(CoCoEditor instance) {
         System.out.println("Setting isntance");
         CoCoEditor.instance = instance;
