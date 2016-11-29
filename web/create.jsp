@@ -26,7 +26,9 @@
         
         <div id="info">
             <p>
-                Here are some instructions: Take the banana firmly in your hands, and peel it. Then, ingest.
+                To create a new session, enter your desired alias below.<br />
+                If you have a session ID, then you can <a href="join.jsp"> join
+                it here</a>.
             </p>
             
         </div>

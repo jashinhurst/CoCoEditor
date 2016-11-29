@@ -28,7 +28,9 @@
         <div id="info">
             <p>
                 To join an active session, enter the session ID and your desired
-                alias below.
+                alias below.<br />
+                If you do not have a session to join, <a href="create.jsp"> create
+                    one here</a>.
             </p>
             
         </div>
