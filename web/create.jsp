@@ -14,11 +14,10 @@
     </head>
     <body>
         <h1>Create</h1>
-        <form action="redirect.jsp" method="post">
+        <form action="redirect.jsp" method="get">
             <strong>Alias: </strong>
             <input type="text" name="<%= edu.nmt.cocoeditor.AttributeNames.ALIAS_ID.getKey() %>" required>
             <button id="btnsubmit" type="submit">Create Session</button>
         </form>
     </body>
-    
 </html>

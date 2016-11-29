@@ -20,10 +20,11 @@
             String sid = edu.nmt.cocoeditor.AttributeNames.SESSION_ID.getKey();
             session.setAttribute(sid, request.getParameter(sid));
             if(session.getAttribute(sid) != null){
-                response.sendRedirect("./join.jsp");
+                //response.sendRedirect("./join.jsp");
+                response.sendRedirect("https://weave.cs.nmt.edu/apollo.8/CoCoEditor/join.jsp");
             }else{
-                //response.sendRedirect("https://weave.cs.nmt.edu/apollo.8/CoCoEditor/create.jsp");
-                response.sendRedirect("./create.jsp");
+                response.sendRedirect("https://weave.cs.nmt.edu/apollo.8/CoCoEditor/create.jsp");
+                //response.sendRedirect("./create.jsp");
             }
         %>
         <h2>
