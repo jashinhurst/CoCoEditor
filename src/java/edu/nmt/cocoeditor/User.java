@@ -60,6 +60,8 @@ public class User extends DBAccessor {
             statement.executeUpdate(query);
             
         } catch (SQLException e) {
+            CoCoEditor.printError("User creation failed:");
+            CoCoEditor.printError(e.getMessage());
             e.printStackTrace();
             CoCoEditor.printError("Failed in query operations");
             return;
