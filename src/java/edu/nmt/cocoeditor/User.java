@@ -19,10 +19,12 @@ public class User extends DBAccessor {
     
     private String userID;
     private boolean valid;
+    private int pos;
     
     public User(String userID) {
            this.userID = userID;
            valid = false;
+           pos = 0;
     }
     
     public boolean isValid() {
@@ -162,6 +164,18 @@ public class User extends DBAccessor {
             return null;
         }
         return date;
+    }
+    
+    public int getPos() {
+        return this.pos;
+    }
+    
+    public void setPos(int pos) {
+        this.pos = pos;
+    }
+    
+    public void addPos(int diff) {
+        this.pos += diff;
     }
     
 }

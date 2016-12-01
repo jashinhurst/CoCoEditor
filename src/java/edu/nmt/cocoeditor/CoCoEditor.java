@@ -148,47 +148,104 @@ public class CoCoEditor extends HttpServlet {
         
         return userID;
     }
-//
-//
-//
-//
-//
-//    //Edit page and statistics page interface
-//
-//    /**
-//     * Sets the cursor position for the user.
-//     * @param pos the new position
-//     **/
-//    public void moveCursor(int pos);
-//
-//    /**
-//     * Deletes some number of characters from the text, from the current position.
-//     * @param sizeOfDeletion how many characters to delete. Deletes backwards
-//     **/
-//    public void delete(int sizeOfDeletion);
-//
-//    /**
-//     * Adds text to the hosted text. The text added is as given
-//     * @param text the text to add
-//     **/
-//    public void addText(String text);
-//
-//    /**
-//     * Leaves the current session
-//     **/
-//    public void leave();
-//
+
+
+
+
+
+    //Edit page and statistics page interface
+
+    /**
+     * Sets the cursor position for the user.
+     * @param session the httpsession for the connection
+     * @param pos the new position
+     **/
+    public static void moveCursor(HttpSession session, int pos) {
+        User user = getUser(session);
+        if (user == null)
+            return; 
+        
+        user.setPos(pos);
+    }
+
+    /**
+     * Deletes some number of characters from the text, from the current position.
+     * @param session the http session to use
+     * @param sizeOfDeletion how many characters to delete. Deletes backwards
+     **/
+    public static void delete(HttpSession session, int sizeOfDeletion) {
+        ActiveSession activesession = getSession(session);
+        if (activesession == null)
+            return;
+        
+        User user = getUser(session);
+        if (user == null)
+            return;        
+        
+        StringBuilder dataText = new StringBuilder(activesession.getText());
+        dataText.delete(user.getPos() - sizeOfDeletion, user.getPos());
+        
+        activesession.submit(dataText.toString(),
+                new Date(Calendar.getInstance().getTimeInMillis()));
+        
+        user.addPos(-sizeOfDeletion); //move them back over deletion
+    }
+
+    /**
+     * Adds text to the hosted text. The text added is as given, from
+     * the user's position in the text
+     * @param session the http session for the connection
+     * @param text the text to add
+     **/
+    public static void addText(HttpSession session, String text) {
+        
+        ActiveSession activesession = getSession(session);
+        if (activesession == null) {
+            return;
+        }
+        User user = getUser(session);
+        if (user == null)
+            return;        
+        StringBuilder dataText = new StringBuilder(activesession.getText());
+        dataText.insert(user.getPos(), text);
+        
+        activesession.submit(dataText.toString(),
+                new Date(Calendar.getInstance().getTimeInMillis()));
+        
+        user.addPos(text.length()); //move them forward some amount of text
+    }
+
+    /**
+     * Leaves the current session
+     * @param session the http session for the connection
+     **/
+    public static void leave(HttpSession session) {
+        
+        User user = getUser(session);
+        if (user == null)
+            return;
+        
+        user.invalidate();
+    }
+
 //    /**
 //     * Returns a link to the current session
 //     * @return the link, in string form
 //     **/
 //    public String getLink();
-//
-//    /**
-//     * Fetches the total text from the server
-//     * @return the text from the server, e.g. the server's most recent version
-//     **/
-//    public String fetchText();
+
+    /**
+     * Fetches the total text from the server
+     * @param session the http session for the connection
+     * @return the text from the server, e.g. the server's most recent version
+     **/
+    public static String fetchText(HttpSession session) {
+        ActiveSession activesession = getSession(session);
+        if (activesession == null)
+            return null;
+        
+        return activesession.getText();
+    }
 //
 //    /**
 //     * Fetches statistics from the server, and updates the graphs
@@ -198,6 +255,37 @@ public class CoCoEditor extends HttpServlet {
     
     
     // Intenral methods
+    private static ActiveSession getSession(HttpSession session) {
+        Object sid = session.getAttribute(
+                AttributeNames.SESSION_ID.getKey()
+        );
+        
+        if (sid == null || !(sid instanceof String)) {
+            return null;
+        }
+        
+        ActiveSession activesession = instance().sessions.get((String) sid);
+        return activesession;
+    }
+    
+    private static User getUser(HttpSession session) {
+        Object uid = session.getAttribute(
+                AttributeNames.USER_ID.getKey()
+        );
+        
+        if (uid == null || !(uid instanceof String)) {
+            return null;
+        }
+        
+        User user = instance().users.get((String) uid);
+        
+        //extra check against invaid user
+        if (user != null && !user.isValid())
+            return null;
+        
+        return user; //including iff null
+    }
+    
     private void addSession(String sessionID) {
         if (sessions == null)
             sessions = new HashMap<>();
