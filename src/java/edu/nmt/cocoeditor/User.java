@@ -49,19 +49,20 @@ public class User extends DBAccessor {
         }
         
         Statement statement = null;
-        
+        String query = "INSERT INTO cocousers (uid, alias, sid)"
+                    + "VALUES ('" + userID + "', '" + alias + "', '" 
+                    + sessionID + "');";
         try {
             statement = c.createStatement();
-            String query = "INSERT INTO cocousers "
-                    + "VALUES ('" + userID + "', '" + sessionID + "', '" 
-                    + alias + "');";
+            
             
 
             statement.executeUpdate(query);
             
         } catch (SQLException e) {
-            CoCoEditor.printError("User creation failed:");
-            CoCoEditor.printError(e.getMessage());
+            CoCoEditor.printError("User creation failed on aliased user [" + alias + "]:");
+            CoCoEditor.printError("<br />" + e.getMessage());
+            CoCoEditor.printError("<br /> > " + query + "<br />");
             e.printStackTrace();
             CoCoEditor.printError("Failed in query operations");
             return;
@@ -96,7 +97,8 @@ public class User extends DBAccessor {
             statement = c.createStatement();
             String query = "SELECT alias "
                     + "FROM cocousers "
-                    + "WHERE userId = " + userID + ";";
+                    + "WHERE " + AttributeNames.USER_ID
+                    + "= " + userID + ";";
             
 
             ResultSet rs = statement.executeQuery(query);
@@ -139,7 +141,8 @@ public class User extends DBAccessor {
             statement = c.createStatement();
             String query = "SELECT sessionId "
                     + "FROM cocousers "
-                    + "WHERE userId = " + userID + ";";
+                    + "WHERE " + AttributeNames.USER_ID
+                    + " = " + userID + ";";
             
 
             ResultSet rs = statement.executeQuery(query);

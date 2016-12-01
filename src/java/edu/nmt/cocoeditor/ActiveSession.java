@@ -77,7 +77,8 @@ public class ActiveSession extends DBAccessor {
             statement = c.createStatement();
             String query = "SELECT text "
                     + "FROM cocosessions "
-                    + "WHERE sessionId = " + sessionID + ";";
+                    + "WHERE " + AttributeNames.SESSION_ID
+                    + "= " + sessionID + ";";
             
 
             ResultSet rs = statement.executeQuery(query);
@@ -120,7 +121,8 @@ public class ActiveSession extends DBAccessor {
             statement = c.createStatement();
             String query = "SELECT lastModified "
                     + "FROM cocosessions "
-                    + "WHERE sessionId = " + sessionID + ";";
+                    + "WHERE " + AttributeNames.SESSION_ID
+                    + "= " + sessionID + ";";
             
 
             ResultSet rs = statement.executeQuery(query);

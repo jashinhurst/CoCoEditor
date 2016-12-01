@@ -61,7 +61,7 @@ public class CoCoEditor extends HttpServlet {
     public static PrintWriter getLastOut(){
         return lastOut;
     }
-    public static void setLastOut(PrintWriter p){
+    public static void setErrorOutput(PrintWriter p){
         lastOut = p;
     }
     public static void printError(String msg) {
@@ -331,6 +331,27 @@ public class CoCoEditor extends HttpServlet {
         actions.put(actionID, action);
     }
     
+    /**
+     * Checks whether the given session is valid and active. This
+     * includes whether it has a user and session, and whether both
+     * are still valid.
+     * @param session
+     * @return 
+     */
+    private boolean isValidSession(HttpSession session) {
+        ActiveSession asession = getSession(session);
+        User user = getUser(session);
+        
+        if (asession == null || user == null) {
+            return false;
+        }
+        
+        if (!user.isValid())
+            return false;
+        
+        return true;
+    }
+    
     
     
     
@@ -349,44 +370,59 @@ public class CoCoEditor extends HttpServlet {
         System.err.flush();
         response.setContentType("text/html;charset=UTF-8");
         
+        CoCoEditor.setErrorOutput(response.getWriter());
+        
         HttpSession session = request.getSession();
+        System.out.println("Handling request!");
         
-        if (session.getAttribute(AttributeNames.USER_ID.getKey()) == null) {
-            //new user. Bounce to join pages
-            directCreate(request, response);
+        if (!isValidSession(session)) {
+            CoCoEditor.printError("Invalid session");
+            System.out.println("Invalid session");
             return;
         }
         
-        //else, they have a user ID. Try to get their user cache
-        User user = users.get(
-                session.getAttribute(AttributeNames.USER_ID.getKey()).toString());
-        if (!user.isValid()) {
-            //have user, but it's invalid. Bounce to create
-            printError("Invalid user");
-            directCreate(request, response);
-            return;
-        }
+        System.out.println("valid session!");
+        
+        //valid session, so process request depending on file requested
+        
+        //TODO
+        
+//        if (session.getAttribute(AttributeNames.USER_ID.getKey()) == null) {
+//            //new user. Bounce to join pages
+//            //directCreate(request, response);
+//            return;
+//        }
+//        
+//        //else, they have a user ID. Try to get their user cache
+//        User user = users.get(
+//                session.getAttribute(AttributeNames.USER_ID.getKey()).toString());
+//        if (!user.isValid()) {
+//            //have user, but it's invalid. Bounce to create
+//            printError("Invalid user");
+//            //directCreate(request, response);
+//            return;
+//        }
         
         //have valid user id. Move to edit page
-        directEdit(request, response);
+        //directEdit(request, response);
         
         
-        try (PrintWriter out = response.getWriter()) {
-            CoCoEditor.lastOut = out;
-            
-            out.println("Generated key: " + createSession());
-                        
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet CoCoEditor</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet CoCoEditor at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
+//        try (PrintWriter out = response.getWriter()) {
+//            //CoCoEditor.lastOut = out;
+//            
+//            out.println("Generated key: " + createSession());
+//                        
+//            /* TODO output your page here. You may use following sample code. */
+//            out.println("<!DOCTYPE html>");
+//            out.println("<html>");
+//            out.println("<head>");
+//            out.println("<title>Servlet CoCoEditor</title>");            
+//            out.println("</head>");
+//            out.println("<body>");
+//            out.println("<h1>Servlet CoCoEditor at " + request.getContextPath() + "</h1>");
+//            out.println("</body>");
+//            out.println("</html>");
+//        }
     }
     
     private void directCreate(HttpServletRequest request, HttpServletResponse response) {

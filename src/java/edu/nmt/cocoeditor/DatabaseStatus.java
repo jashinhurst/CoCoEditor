@@ -43,7 +43,8 @@ public class DatabaseStatus extends DBAccessor {
             statement = c.createStatement();
             String query = "SELECT text "
                     + "FROM cocosessions "
-                    + "WHERE sessionId = '" + sessionID + "';";
+                    + "WHERE " + AttributeNames.SESSION_ID
+                    + "= '" + sessionID + "';";
             
 
             ResultSet rs = statement.executeQuery(query);
@@ -54,7 +55,8 @@ public class DatabaseStatus extends DBAccessor {
             
             
         } catch (SQLException e) {
-            e.printStackTrace();
+            CoCoEditor.printError("DB Gen Access failed:");
+            CoCoEditor.printError(e.getMessage());
             CoCoEditor.printError("Failed in query operations");
             return false;
         }
