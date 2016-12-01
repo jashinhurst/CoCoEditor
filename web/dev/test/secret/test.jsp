@@ -18,6 +18,7 @@
                 var xhttp = new XMLHttpRequest();
                 xhttp.onreadystatechange = function() {};
                 xhttp.open("POST", "data/addText.xml");
+                xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
                 xhttp.send("text=add123");
             }
         </script>

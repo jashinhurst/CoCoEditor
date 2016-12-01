@@ -98,7 +98,7 @@ public class User extends DBAccessor {
             String query = "SELECT alias "
                     + "FROM cocousers "
                     + "WHERE " + AttributeNames.USER_ID
-                    + "= " + userID + ";";
+                    + "='" + userID + "';";
             
 
             ResultSet rs = statement.executeQuery(query);
@@ -142,7 +142,7 @@ public class User extends DBAccessor {
             String query = "SELECT sessionId "
                     + "FROM cocousers "
                     + "WHERE " + AttributeNames.USER_ID
-                    + " = " + userID + ";";
+                    + " ='" + userID + "';";
             
 
             ResultSet rs = statement.executeQuery(query);

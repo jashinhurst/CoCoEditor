@@ -51,12 +51,16 @@ public class UserAction extends DBAccessor {
 //                    + alias + "');";
             String query = "INSERT INTO cocoactions "
                     + "VALUES (";
-            then(query, userID);
-            then(query, actionID);
-            then(query, delta + "");
-            then(query, user.getPos() + "");
-            then(query, text);
-            then(query, timestamp.toString());
+            query += "'" + userID + "'";
+            query = then(query, actionID);
+            query = then(query, delta + "");
+            query = then(query, user.getPos() + "");
+            query = query = then(query, text);
+            query = then(query, timestamp.toString());
+            query += ")";
+            
+            System.out.println("Query: ");
+            System.out.println(query);
             
             statement.executeUpdate(query);
             

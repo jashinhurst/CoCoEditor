@@ -10,6 +10,7 @@ import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Calendar;
 
 /**
  * Stores information about an active session.
@@ -63,6 +64,47 @@ public class ActiveSession extends DBAccessor {
         }
     }
     
+    public void updateText(String text) {
+        Connection c = getConnection();
+        if (c == null) {
+            CoCoEditor.printError("Failed to open session connection");
+            return;
+        }
+        
+        Statement statement = null;
+        Date now = new Date(Calendar.getInstance().getTimeInMillis());
+        
+        try {
+            statement = c.createStatement();
+            String query = "UPDATE cocosessions "
+                    + "SET text='" + text + "', lastModified='" + now.toString() + "' "
+                    + "WHERE " + AttributeNames.SESSION_ID
+                    + "='" + sessionID + "';";
+            
+
+            statement.executeUpdate(query);
+            
+        } catch (SQLException e) {
+            CoCoEditor.printError("Session creation failed:");
+            CoCoEditor.printError(e.getMessage());
+            e.printStackTrace();
+            CoCoEditor.printError("Failed in query operations");
+            return;
+        }
+        
+        
+        try {
+            if (statement != null)
+                statement.close();
+            
+            c.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            CoCoEditor.printError("Failed to close database connection");
+            return;
+        }
+    }
+    
     public String getText() {
         Connection c = getConnection();
         if (c == null) {
@@ -78,7 +120,7 @@ public class ActiveSession extends DBAccessor {
             String query = "SELECT text "
                     + "FROM cocosessions "
                     + "WHERE " + AttributeNames.SESSION_ID
-                    + "= " + sessionID + ";";
+                    + "='" + sessionID + "';";
             
 
             ResultSet rs = statement.executeQuery(query);
@@ -122,7 +164,7 @@ public class ActiveSession extends DBAccessor {
             String query = "SELECT lastModified "
                     + "FROM cocosessions "
                     + "WHERE " + AttributeNames.SESSION_ID
-                    + "= " + sessionID + ";";
+                    + "='" + sessionID + "';";
             
 
             ResultSet rs = statement.executeQuery(query);

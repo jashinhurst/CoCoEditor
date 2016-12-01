@@ -10,6 +10,7 @@ import java.io.PrintWriter;
 import java.security.SecureRandom;
 import java.sql.Date;
 import java.util.Calendar;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 import javax.servlet.RequestDispatcher;
@@ -208,6 +209,7 @@ public class CoCoEditor extends HttpServlet {
      **/
     public static void addText(HttpSession session, String text) {
         
+        System.out.println("Adding text: " + text);
         ActiveSession activesession = getSession(session);
         if (activesession == null) {
             return;
@@ -219,7 +221,7 @@ public class CoCoEditor extends HttpServlet {
         dataText.insert(user.getPos(), text);
         
         Date now = new Date(Calendar.getInstance().getTimeInMillis());
-        activesession.submit(dataText.toString(), now);
+        activesession.updateText(dataText.toString());
         
         String key = generateKey(KEY_ACTION_LENGTH);
         UserAction action = new UserAction(
@@ -375,6 +377,16 @@ public class CoCoEditor extends HttpServlet {
         HttpSession session = request.getSession();
         System.out.println("Handling request!");
         
+        
+        String requestedFile = request.getRequestURI();
+        int index = requestedFile.lastIndexOf("/");
+        requestedFile = requestedFile.substring(index + 1);
+        
+        System.out.println("request: >" + requestedFile);
+        
+        if (requestedFile == null || requestedFile.trim().isEmpty())
+            return;
+        
         if (!isValidSession(session)) {
             CoCoEditor.printError("Invalid session");
             System.out.println("Invalid session");
@@ -382,6 +394,13 @@ public class CoCoEditor extends HttpServlet {
         }
         
         System.out.println("valid session!");
+        switch (requestedFile) {
+            case "addText.xml": handleText(request, response); break;
+            
+            default:
+                System.out.println("Invalid request received: " + requestedFile);
+                return;
+        }
         
         //valid session, so process request depending on file requested
         
@@ -423,6 +442,27 @@ public class CoCoEditor extends HttpServlet {
 //            out.println("</body>");
 //            out.println("</html>");
 //        }
+    }
+    
+    private void handleText(HttpServletRequest request, HttpServletResponse response) {
+        
+        //valid session. Fetch text from request, and perform addText
+        Object o = request.getParameter(AjaxAttributes.TEXT_TEXT.getKey());
+        if (o == null || !(o instanceof String)) {
+            if (o == null)
+                System.out.println("Invalid text attribute: null");
+            else
+                System.out.println("Invalid attribute text: " + o.toString());
+            return;
+        }
+        
+        String text = (String) o;
+        
+        CoCoEditor.addText(request.getSession(), text);
+    }
+    
+    private void handleDelete(HttpServletRequest request, HttpServletResponse response) {
+        
     }
     
     private void directCreate(HttpServletRequest request, HttpServletResponse response) {
