@@ -41,7 +41,6 @@ public class CoCoEditor extends HttpServlet {
     private Map<String, User> users;
     
     private static void setInstance(CoCoEditor instance) {
-        System.out.println("Setting isntance");
         CoCoEditor.instance = instance;
     }
     
@@ -227,6 +226,7 @@ public class CoCoEditor extends HttpServlet {
                 session.getAttribute(AttributeNames.USER_ID.getKey()).toString());
         if (!user.isValid()) {
             //have user, but it's invalid. Bounce to create
+            printError("Invalid user");
             directCreate(request, response);
             return;
         }

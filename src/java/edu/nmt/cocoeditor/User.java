@@ -55,7 +55,7 @@ public class User extends DBAccessor {
                     + alias + "');";
             
 
-            statement.executeQuery(query);
+            statement.executeUpdate(query);
             
         } catch (SQLException e) {
             e.printStackTrace();
