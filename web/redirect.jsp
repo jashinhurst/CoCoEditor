@@ -27,6 +27,7 @@
             String sid = AttributeNames.SESSION_ID.getKey();
             String aid = AttributeNames.ALIAS_ID.getKey();
             if(request.getParameter(aid) != null){
+                CoCoEditor.setErrorOutput(response.getWriter());
                 out.println("create: ");
                 String sessionID = null;
                 sessionID = CoCoEditor.createSession();

@@ -1,7 +1,7 @@
 <%-- 
     Document   : create
     Created on : Nov 19, 2016, 2:27:21 PM
-    Author     : chavezfk, skyler
+    Author     : Skyler
 --%>
 <%@page language="java" contentType="text/html" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
@@ -12,6 +12,15 @@
          <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" type="text/css" href="global.css">
         <title>CoCoEditor</title>
+        
+        <script type="text/javascript">
+            function addText() {
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function() {};
+                xhttp.open("POST", "data/addText.xml");
+                xhttp.send("text=add123");
+            }
+        </script>
     </head>
     <body>
         <div id="header">
@@ -21,28 +30,17 @@
             CoCo Editor
         </div>
         <div id="subtitle">
-            Create Session
+            Blow Up World
         </div>
         
         <div id="info">
             <p>
-                To create a new session, enter your desired alias below.<br />
-                If you have a session ID, then you can <a href="join.jsp"> join
-                it here</a>.
+                This page is used to blow up the world.
             </p>
             
         </div>
         <div>
-            <form action="redirect.jsp" method="post">
-            <center>
-                <strong>Alias: </strong><br />
-                <input  maxlength="10" type="text" name="<%= edu.nmt.cocoeditor.AttributeNames.ALIAS_ID.getKey() %>" required>
-            </center>
-            <br />
-            <center>
-                <button id="btnsubmit" type="submit">Create Session</button>
-            </center>
-            </form>
+            <button name="addText" onclick="addText()">Add Text</button>
         </div>
     </body>
 </html>
