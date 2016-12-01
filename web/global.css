@@ -176,6 +176,17 @@ body {
     height: 600px;
 }
 
+#textarea_footer {
+    width: 100%;
+    background-color: #335;
+}
+
+#textarea_footer select {
+    background-color: #335;
+    color: white;
+    border-color: #335;
+}
+
 textarea {
     float: left;
 }
