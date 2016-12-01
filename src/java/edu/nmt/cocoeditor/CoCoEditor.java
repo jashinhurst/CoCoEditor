@@ -35,7 +35,7 @@ public class CoCoEditor extends HttpServlet {
     public static final int KEY_USER_LENGTH = 18;
     
     public static CoCoEditor instance;
-    private static PrintWriter lastOut;
+    public static PrintWriter lastOut;
     
     private Map<String, ActiveSession> sessions;
     private Map<String, User> users;
@@ -43,8 +43,15 @@ public class CoCoEditor extends HttpServlet {
     private static void setInstance(CoCoEditor instance) {
         CoCoEditor.instance = instance;
     }
-    
-    
+    public static CoCoEditor getInstance() {
+        return instance;
+    }
+    public static PrintWriter getLastOut(){
+        return lastOut;
+    }
+    public static void setLastOut(PrintWriter p){
+        lastOut = p;
+    }
     public void printError(String msg) {
         lastOut.println("Encountered error: " + msg);
     }
@@ -90,6 +97,7 @@ public class CoCoEditor extends HttpServlet {
         String id = generateKey(KEY_SESSION_LENGTH);
         int i = 0;
         while (DatabaseStatus.instance().hasSession(id)) {
+           
             if (i > KEY_FETCH_TIMEOUT) {
                 printError("Failed to generate unique session key in time");
                 return null;
@@ -97,7 +105,7 @@ public class CoCoEditor extends HttpServlet {
             id = generateKey(KEY_SESSION_LENGTH);
             i++;
         }
-        
+        System.out.println("here with id: " + id);
         addSession(id);
         
         return id;
