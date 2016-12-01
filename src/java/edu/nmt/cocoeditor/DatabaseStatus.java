@@ -32,7 +32,7 @@ public class DatabaseStatus extends DBAccessor {
     public boolean hasSession(String sessionID) {
         Connection c = getConnection();
         if (c == null) {
-            CoCoEditor.instance.printError("Failed to open session connection");
+            CoCoEditor.printError("Failed to open session connection");
             return false;
         }
         
@@ -55,7 +55,7 @@ public class DatabaseStatus extends DBAccessor {
             
         } catch (SQLException e) {
             e.printStackTrace();
-            CoCoEditor.instance.printError("Failed in query operations");
+            CoCoEditor.printError("Failed in query operations");
             return false;
         }
         
@@ -67,7 +67,7 @@ public class DatabaseStatus extends DBAccessor {
             c.close();
         } catch (SQLException e) {
             e.printStackTrace();
-            CoCoEditor.instance.printError("Failed to close database connection");
+            CoCoEditor.printError("Failed to close database connection");
             return false;
         }
         return exists;

@@ -27,7 +27,7 @@ public abstract class DBAccessor {
             Class.forName("com.mysql.jdbc.Driver");
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
-            CoCoEditor.instance.printError("Could not load mysql driver class!");
+            CoCoEditor.printError("Could not load mysql driver class!");
             return null;
         }
         
@@ -36,7 +36,7 @@ public abstract class DBAccessor {
             con = DriverManager.getConnection(URL, USERNAME, PASSWORD);
         } catch (SQLException e) {
             e.printStackTrace();
-            CoCoEditor.instance.printError("Failed to connect to the DB!");
+            CoCoEditor.printError("Failed to connect to the DB!");
         }
         
         return con;

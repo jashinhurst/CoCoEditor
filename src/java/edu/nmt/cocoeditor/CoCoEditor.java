@@ -40,20 +40,31 @@ public class CoCoEditor extends HttpServlet {
     private Map<String, ActiveSession> sessions;
     private Map<String, User> users;
     
-    private static void setInstance(CoCoEditor instance) {
-        CoCoEditor.instance = instance;
-    }
-    public static CoCoEditor getInstance() {
+    //private static void setInstance(CoCoEditor instance) {
+    //    CoCoEditor.instance = instance;
+    //}
+    //public static CoCoEditor getInstance() {
+    //    return instance;
+    //}
+    
+    public static CoCoEditor instance() {
+        if (instance == null) {
+            instance = new CoCoEditor();
+            System.out.println("Making a NEW editor!");
+        }
+        
         return instance;
     }
+    
     public static PrintWriter getLastOut(){
         return lastOut;
     }
     public static void setLastOut(PrintWriter p){
         lastOut = p;
     }
-    public void printError(String msg) {
-        lastOut.println("Encountered error: " + msg);
+    public static void printError(String msg) {
+        if (lastOut != null)
+            lastOut.println("Encountered error: " + msg);
     }
     
     private static final SecureRandom S_RAND = new SecureRandom();
@@ -93,7 +104,7 @@ public class CoCoEditor extends HttpServlet {
      * and no history. Returns it's ID
      * @return the session ID
      **/
-    public String createSession() {
+    public static String createSession() {
         String id = generateKey(KEY_SESSION_LENGTH);
         int i = 0;
         while (DatabaseStatus.instance().hasSession(id)) {
@@ -106,7 +117,7 @@ public class CoCoEditor extends HttpServlet {
             i++;
         }
         System.out.println("here with id: " + id);
-        addSession(id);
+        instance().addSession(id);
         
         return id;
     }
@@ -117,7 +128,7 @@ public class CoCoEditor extends HttpServlet {
      * @param alias the alias to enter the session with
      * @return the new user ID for the added user in the session
      **/
-    public String submit(String sessionID, String alias) {
+    public static String submit(String sessionID, String alias) {
         //check if session exists, then gen user and return id
         if (!DatabaseStatus.instance().hasSession(sessionID)) {
             printError("Could not locate session from submit id: " + sessionID);
@@ -133,7 +144,7 @@ public class CoCoEditor extends HttpServlet {
         User user = new User(userID);
         user.submit(sessionID, alias);
         
-        addUser(userID, user);
+        instance().addUser(userID, user);
         
         return userID;
     }
@@ -217,7 +228,7 @@ public class CoCoEditor extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        setInstance(this);
+        //setInstance(this);
         System.err.flush();
         response.setContentType("text/html;charset=UTF-8");
         

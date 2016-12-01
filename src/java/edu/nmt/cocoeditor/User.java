@@ -42,7 +42,7 @@ public class User extends DBAccessor {
     public void submit(String sessionID, String alias) {
         Connection c = getConnection();
         if (c == null) {
-            CoCoEditor.instance.printError("Failed to open session connection");
+            CoCoEditor.printError("Failed to open session connection");
             return;
         }
         
@@ -59,7 +59,7 @@ public class User extends DBAccessor {
             
         } catch (SQLException e) {
             e.printStackTrace();
-            CoCoEditor.instance.printError("Failed in query operations");
+            CoCoEditor.printError("Failed in query operations");
             return;
         }
         
@@ -71,7 +71,7 @@ public class User extends DBAccessor {
             c.close();
         } catch (SQLException e) {
             e.printStackTrace();
-            CoCoEditor.instance.printError("Failed to close database connection");
+            CoCoEditor.printError("Failed to close database connection");
             return;
         }
         
@@ -81,7 +81,7 @@ public class User extends DBAccessor {
     public String getAlias() {
         Connection c = getConnection();
         if (c == null) {
-            CoCoEditor.instance.printError("Failed to open session connection");
+            CoCoEditor.printError("Failed to open session connection");
             return null;
         }
         
@@ -97,13 +97,13 @@ public class User extends DBAccessor {
 
             ResultSet rs = statement.executeQuery(query);
             if (!rs.next()) {
-                CoCoEditor.instance.printError("Invalid session ID");
+                CoCoEditor.printError("Invalid session ID");
                 text = null;
             } else
                 text = rs.getString(1);
         } catch (SQLException e) {
             e.printStackTrace();
-            CoCoEditor.instance.printError("Failed in query operations");
+            CoCoEditor.printError("Failed in query operations");
             return null;
         }
         
@@ -115,7 +115,7 @@ public class User extends DBAccessor {
             c.close();
         } catch (SQLException e) {
             e.printStackTrace();
-            CoCoEditor.instance.printError("Failed to close database connection");
+            CoCoEditor.printError("Failed to close database connection");
             return null;
         }
         return text;
@@ -124,7 +124,7 @@ public class User extends DBAccessor {
     public Date getSessionID() {
         Connection c = getConnection();
         if (c == null) {
-            CoCoEditor.instance.printError("Failed to open session connection");
+            CoCoEditor.printError("Failed to open session connection");
             return null;
         }
         
@@ -140,13 +140,13 @@ public class User extends DBAccessor {
 
             ResultSet rs = statement.executeQuery(query);
             if (!rs.next()) {
-                CoCoEditor.instance.printError("Invalid session ID");
+                CoCoEditor.printError("Invalid session ID");
                 date = null;
             } else
                 date = rs.getDate(1);
         } catch (SQLException e) {
             e.printStackTrace();
-            CoCoEditor.instance.printError("Failed in query operations");
+            CoCoEditor.printError("Failed in query operations");
             return null;
         }
         
@@ -158,7 +158,7 @@ public class User extends DBAccessor {
             c.close();
         } catch (SQLException e) {
             e.printStackTrace();
-            CoCoEditor.instance.printError("Failed to close database connection");
+            CoCoEditor.printError("Failed to close database connection");
             return null;
         }
         return date;

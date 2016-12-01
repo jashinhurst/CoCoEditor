@@ -6,7 +6,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>CoCoEditor</servlet-name>
-        <url-pattern>/index.jsp</url-pattern>
+        <url-pattern>/obsure/</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

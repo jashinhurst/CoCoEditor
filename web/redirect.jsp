@@ -29,11 +29,11 @@
             if(request.getParameter(aid) != null){
                 out.println("create: ");
                 String sessionID = null;
-                sessionID = CoCoEditor.instance.createSession();
+                sessionID = CoCoEditor.createSession();
                 out.println(sessionID +"<br>");
                 String alias = request.getParameter(aid);
                 session.setAttribute(sid, sessionID);
-                session.setAttribute(uid, CoCoEditor.instance.submit(sessionID, alias));
+                session.setAttribute(uid, CoCoEditor.submit(sessionID, alias));
                 //response.sendRedirect("./editor.jsp");
             }
             out.println("session id: ");
