@@ -46,30 +46,31 @@
             </div>
             <ul id="navbar">
                 <li>
-                    <a href="javascript:void(0)" onclick="show_hide('file_drop')" class="dropbtn">File</a>
+                    <a href="javascript:void(0)" onclick="show_hide('file_drop')" class="dropbtn" draggable="false">File</a>
                     <div id="file_drop" class="dropdown">
-                        <a href="#">Download</a>
-                        <a href="#">Quit</a>
+                        <a href="#" draggable="false">Download</a>
+                        <a href="javascript:window.close()" draggable="false">Quit</a>
                     </div>
                 </li>
                 <li>
-                    <a href="javascript:void(0)" onclick="show_hide('edit_drop')" class="dropbtn">Edit</a>
+                    <a href="javascript:void(0)" onclick="show_hide('edit_drop')" class="dropbtn" draggable="false">Edit</a>
                     <div id="edit_drop" class="dropdown">
-                        <a href="#">Download</a>
-                        <a href="#">Quit</a>
+                        <a href="#" onclick="editor.selectAll()" draggable="false">Select All</a>
+                        <a href="#" onclick="editor.undo()" draggable="false">Undo</a>
+                        <a href="#" onclick="editor.redo()" draggable="false">Redo</a>
                 </li>
                 <li>
-                    <a href="javascript:void(0)" onclick="show_hide('view_drop')" class="dropbtn">View</a>
+                    <a href="javascript:void(0)" onclick="show_hide('view_drop')" class="dropbtn" draggable="false">View</a>
                     <div id="view_drop" class="dropdown">
-                        <a href="#">Download</a>
-                        <a href="#">Quit</a>
+                        <a href="#" draggable="false">Download</a>
+                        <a href="#" draggable="false">Quit</a>
                     </div>
                 </li>
                 <li>
-                    <a href="javascript:void(0)" onclick="show_hide('help_drop')" class="dropbtn">Help</a>
+                    <a href="javascript:void(0)" onclick="show_hide('help_drop')" class="dropbtn" draggable="false">Help</a>
                     <div id="help_drop" class="dropdown">
-                        <a href="#">Download</a>
-                        <a href="#">Quit</a>
+                        <a href="#" draggable="false">Download</a>
+                        <a href="#" draggable="false">Quit</a>
                     </div>
                 </li>
             </ul>
@@ -77,6 +78,13 @@
             var x = "All this is syntax highlighted";
             return x;
         }</div>
+            
+            <div id="textarea_footer">
+                <select>
+                    <option onclick="changeMode('javascript')">Javascript</option>
+                    <option onclick="changeMode('csharp')">C#</option>
+                </select>
+            </div>
             
         </div>
         
@@ -86,6 +94,10 @@
             var editor = ace.edit("textarea");
             editor.setTheme("ace/theme/monokai");
             editor.getSession().setMode("ace/mode/javascript");
+            function changeMode(mode) {
+                mode = "ace/mode/" + mode;
+                editor.getSession().setMode(mode)
+            }
         </script>
     </body>
 </html>
