@@ -47,8 +47,6 @@
                 CoCo Editor is a collaborative browser-based program where you
                 and your colleagues can work together on small, generally single
                 file coding projects. <br>
-                To host a session click "Create A Session." <br>
-                To join an already running session, click "Join Your Friends."
             </p>
             
         </div>
@@ -58,8 +56,8 @@
             <span style="width: 50px;">&nbsp;</span>
             <a href="join.jsp"><div id="joinbutton">Join Your Friends</div></a>
         </div>
-        <h4>Please Note:</h4>
-        <p>Currently under development: Collaborative capabilities are very
-        limited at the moment, but will be working soon! :)</p>
+        <p class="hinttext">Note: This website is currently under development!
+            Collaborative capabilities are very limited at the moment, but will 
+            be working soon! :)</p>
     </body>
 </html>

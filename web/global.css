@@ -4,6 +4,13 @@ body {
     background-color: darkgray;
 }
 
+.hinttext {
+    font-size: 8pt;
+    color: #303030;
+    text-align: center;
+    margin-top: 30px;
+}
+
 #editor{
     height: 80vh;
 }
