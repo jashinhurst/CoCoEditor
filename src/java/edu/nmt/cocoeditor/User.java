@@ -178,4 +178,8 @@ public class User extends DBAccessor {
         this.pos += diff;
     }
     
+    public String getUserID() {
+        return this.userID;
+    }
+    
 }

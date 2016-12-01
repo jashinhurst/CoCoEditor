@@ -42,5 +42,9 @@ public abstract class DBAccessor {
         return con;
     }
     
+    protected String then(String base, String next) {
+        return base + ", '" + next + "'";
+    }
+    
 }
 

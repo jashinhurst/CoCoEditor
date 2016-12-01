@@ -33,12 +33,14 @@ public class CoCoEditor extends HttpServlet {
     public static final int KEY_FETCH_TIMEOUT = 500;
     public static final int KEY_SESSION_LENGTH = 24;
     public static final int KEY_USER_LENGTH = 18;
+    public static final int KEY_ACTION_LENGTH = 18;
     
     public static CoCoEditor instance;
     public static PrintWriter lastOut;
     
     private Map<String, ActiveSession> sessions;
     private Map<String, User> users;
+    private Map<String, UserAction> actions;
     
     //private static void setInstance(CoCoEditor instance) {
     //    CoCoEditor.instance = instance;
@@ -116,7 +118,7 @@ public class CoCoEditor extends HttpServlet {
             id = generateKey(KEY_SESSION_LENGTH);
             i++;
         }
-        System.out.println("here with id: " + id);
+        
         instance().addSession(id);
         
         return id;
@@ -185,8 +187,15 @@ public class CoCoEditor extends HttpServlet {
         StringBuilder dataText = new StringBuilder(activesession.getText());
         dataText.delete(user.getPos() - sizeOfDeletion, user.getPos());
         
-        activesession.submit(dataText.toString(),
-                new Date(Calendar.getInstance().getTimeInMillis()));
+        Date now = new Date(Calendar.getInstance().getTimeInMillis());
+        activesession.submit(dataText.toString(), now);
+        
+        String key = generateKey(KEY_ACTION_LENGTH);
+        UserAction action = new UserAction(
+                key, user.getUserID(), sizeOfDeletion, "", now
+        );
+        instance().addAction(key, action);
+        action.submit(user);
         
         user.addPos(-sizeOfDeletion); //move them back over deletion
     }
@@ -209,8 +218,15 @@ public class CoCoEditor extends HttpServlet {
         StringBuilder dataText = new StringBuilder(activesession.getText());
         dataText.insert(user.getPos(), text);
         
-        activesession.submit(dataText.toString(),
-                new Date(Calendar.getInstance().getTimeInMillis()));
+        Date now = new Date(Calendar.getInstance().getTimeInMillis());
+        activesession.submit(dataText.toString(), now);
+        
+        String key = generateKey(KEY_ACTION_LENGTH);
+        UserAction action = new UserAction(
+                key, user.getUserID(), text.length(), text, now
+        );
+        instance().addAction(key, action);
+        action.submit(user);
         
         user.addPos(text.length()); //move them forward some amount of text
     }
@@ -256,6 +272,9 @@ public class CoCoEditor extends HttpServlet {
     
     // Intenral methods
     private static ActiveSession getSession(HttpSession session) {
+        if (instance().sessions == null)
+            instance().sessions = new HashMap<>();
+        
         Object sid = session.getAttribute(
                 AttributeNames.SESSION_ID.getKey()
         );
@@ -269,6 +288,9 @@ public class CoCoEditor extends HttpServlet {
     }
     
     private static User getUser(HttpSession session) {
+        if (instance().users == null)
+            instance().users = new HashMap<>();
+        
         Object uid = session.getAttribute(
                 AttributeNames.USER_ID.getKey()
         );
@@ -300,6 +322,13 @@ public class CoCoEditor extends HttpServlet {
             users = new HashMap<>();
         
         users.put(userID, user);
+    }
+    
+    private void addAction(String actionID, UserAction action) {
+        if (actions == null)
+            actions = new HashMap<>();
+        
+        actions.put(actionID, action);
     }
     
     
