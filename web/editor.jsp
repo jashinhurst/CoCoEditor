@@ -63,8 +63,7 @@
                 <li>
                     <a href="javascript:void(0)" onclick="show_hide('view_drop')" class="dropbtn" draggable="false">View</a>
                     <div id="view_drop" class="dropdown">
-                        <a href="#" draggable="false">Download</a>
-                        <a href="#" draggable="false">Quit</a>
+                        <a href="javascript:void(0)" onclick="switchTheme()" draggable="false">Dark/Light</a>
                     </div>
                 </li>
                 <li>
@@ -83,8 +82,15 @@
                 <tr>
                     <td>
                         <select>
-                            <option onclick="changeMode('javascript')">Javascript</option>
                             <option onclick="changeMode('csharp')">C#</option>
+                            <option onclick="changeMode('c_cpp')">C++</option>
+                            <option onclick="changeMode('html')">HTML</option>
+                            <option onclick="changeMode('javascript')">Javascript</option>
+                            <option onclick="changeMode('lua')">Lua</option>
+                            <option onclick="changeMode('perl')">Perl</option>
+                            <option onclick="changeMode('plain_text')">Plain Text</option>
+                            <option onclick="changeMode('python')">Python</option>
+                            <option onclick="changeMode('sql')">SQL</option>
                         </select>
                     </td>
                     <td>
@@ -100,6 +106,7 @@
         <script src="./ace-builds-1.2.5/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
         <script>
             var editor = ace.edit("textarea");
+            var theme_counter = 0;
             editor.setTheme("ace/theme/monokai");
             editor.getSession().setMode("ace/mode/javascript");
             function changeMode(mode) {
@@ -114,6 +121,14 @@
                 var count = "&nbsp;&nbsp;&nbsp;&nbsp;Character Count: " + editor.getSession().getValue().length;
                 document.getElementById('char_count').innerHTML = count;
             });
+            function switchTheme() {
+                if (theme_counter % 2 === 0) {
+                    editor.setTheme("ace/theme/textmate");
+                } else {
+                    editor.setTheme("ace/theme/monokai");
+                }
+                theme_counter++;
+            }
         </script>
     </body>
 </html>
