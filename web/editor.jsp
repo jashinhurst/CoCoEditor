@@ -77,7 +77,7 @@
         <div style="height: 100%;" id="textarea">function foo(items) {
             var x = "All this is syntax highlighted";
             return x;
-        }</div>
+}</div>
             
             <table id="textarea_footer" class="footer_info">
                 <tr>
@@ -88,7 +88,7 @@
                         </select>
                     </td>
                     <td>
-                        <div id="char_count" class="footer_info"> &nbsp;&nbsp;&nbsp;Character Count</div>
+                        <p id="char_count" class="footer_info"></p>
                     </td>
                 </tr>
                 
@@ -104,12 +104,16 @@
             editor.getSession().setMode("ace/mode/javascript");
             function changeMode(mode) {
                 mode = "ace/mode/" + mode;
-                editor.getSession().setMode(mode)
+                editor.getSession().setMode(mode);
             }
-            function showSession() {
-                var text_sid = session.getAttribute(sid);
-                window.alert(text_sid);
-            }
+            window.onload = function() {
+                var count = "&nbsp;&nbsp;&nbsp;&nbsp;Character Count: " + editor.getSession().getValue().length;
+                document.getElementById('char_count').innerHTML = count;
+            };
+            editor.getSession().on('change', function() {
+                var count = "&nbsp;&nbsp;&nbsp;&nbsp;Character Count: " + editor.getSession().getValue().length;
+                document.getElementById('char_count').innerHTML = count;
+            });
         </script>
     </body>
 </html>
