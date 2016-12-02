@@ -31,6 +31,14 @@
                 xhttp.send("pos=" + pos);
             }
             
+            function sendDelete(len) {
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function() {};
+                xhttp.open("POST", "data/delete.xml");
+                xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                xhttp.send("count=" + len);
+            }
+            
             function refreshText(targetID = "content") {
                 var xhttp = new XMLHttpRequest();
                 xhttp.onreadystatechange = function() {
@@ -50,6 +58,14 @@
                 xhttp.send("");
             }
             
+            function leave() {
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function() {};
+                xhttp.open("POST", "data/leave.xml");
+                xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                xhttp.send("");
+            }
+            
             
             // Helper methods. Ignore these
             
@@ -63,6 +79,12 @@
                 var input = document.getElementById("posfield");
                 var pos = input.value;
                 setPos(pos);
+            }
+            
+            function doDelete() {
+                var input = document.getElementById("delfield");
+                var len = input.value;
+                sendDelete(len);
             }
         </script>
     </head>
@@ -88,8 +110,12 @@
             <button name="addText" onclick="doText()">Add Text</button><br />
             <input type="text" value="Enter new POS" name="inpos" id="posfield" />
             <button name="addText" onclick="doPos()">Set Pos</button><br />
+            <input type="text" value="How much to delete?" name="indel" id="delfield" />
+            <button name="addText" onclick="doDelete()">Delete</button><br />
             <br />
             <button name="addText" onclick="refreshText('content')">Refresh</button><br />
+            <br />
+            <button name="addText" onclick="leave()">Leave Session</button><br />
         </div>
     </body>
 </html>

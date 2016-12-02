@@ -169,6 +169,7 @@ public class CoCoEditor extends HttpServlet {
             return; 
         ActiveSession as = getSession(session);
         pos = Math.min(pos, as.getText().length());
+        pos = Math.max(pos, 0);
         
         user.setPos(pos);
         System.out.println("Setting pos to " + pos);
@@ -188,11 +189,15 @@ public class CoCoEditor extends HttpServlet {
         if (user == null)
             return;        
         
+        if (user.getPos() == 0)
+            return; //cannot delete at pos 0
+        
         StringBuilder dataText = new StringBuilder(activesession.getText());
         dataText.delete(user.getPos() - sizeOfDeletion, user.getPos());
         
         Date now = new Date(Calendar.getInstance().getTimeInMillis());
-        activesession.submit(dataText.toString(), now);
+        //activesession.submit(dataText.toString(), now);
+        activesession.updateText(dataText.toString());
         
         String key = generateKey(KEY_ACTION_LENGTH);
         UserAction action = new UserAction(
@@ -401,6 +406,8 @@ public class CoCoEditor extends HttpServlet {
             case "addText.xml": handleText(request, response); break;
             case "setPos.xml": handlePos(request, response); break;
             case "getText.xml": handleGetText(request, response); break;
+            case "delete.xml": handleDelete(request, response); break;
+            case "leave.xml": handleLeave(request, response); break;
             
             default:
                 System.out.println("Invalid request received: " + requestedFile);
@@ -496,63 +503,81 @@ public class CoCoEditor extends HttpServlet {
     
     private void handleDelete(HttpServletRequest request, HttpServletResponse response) {
         
+        Object o = request.getParameter(AjaxAttributes.DELETE_COUNT.getKey());
+        if (o == null || !(o instanceof String)) {
+            if (o == null)
+                System.out.println("Invalid text attribute: null");
+            else
+                System.out.println("Invalid attribute delete count: " + o.toString());
+            return;
+        }
+        
+        String len = (String) o;
+        CoCoEditor.delete(request.getSession(), Integer.valueOf(len));
+        
     }
     
-    private void directCreate(HttpServletRequest request, HttpServletResponse response) {
-        
-//        int index = request.getRequestURL().indexOf("/CoCoEditor/");
-//        String requestURL = request.getRequestURL().substring(
-//                index + 12 //12 is size of /CoCoEditor/
-//        );
-//        System.out.println("query: [" + requestURL + "]");
-//        //return;
-        
-        //clean up any session attributes we may have
+    private void handleLeave(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession();
-        session.removeAttribute(AttributeNames.USER_ID.getKey());
         
-        String url;
-          
-
-        //request.setAttribute("sid", request.getParameter("sid"));
-        if(session.getAttribute(AttributeNames.SESSION_ID.getKey()) != null) {
-            //This is stored in the session now
-            //response.setAttribute("sid",request.getParameter("sid"));
-
-            //make sure it's an active session
-            if (!DatabaseStatus.instance().hasSession(
-                session.getAttribute(AttributeNames.SESSION_ID.getKey()).toString()
-            )) {
-                //has session key, but it's invalid.
-                //Clean it and bounce to create.
-                session.removeAttribute(AttributeNames.SESSION_ID.getKey());
-                url = "create.jsp";
-                //response.sendRedirect("./create.jsp");
-            } else
-                url = "join.jsp";
-                //response.sendRedirect("./join.jsp");
-        } else {
-            url = "create.jsp";
-            //response.sendRedirect("./create.jsp");
-        }
-        
-//        if (requestURL.equalsIgnoreCase(url)) {
-//            return;
-//        }
-        
-        RequestDispatcher dispatcher = request.getRequestDispatcher(url);
-        
-        try {
-            dispatcher.include(request, response);
-        } catch (ServletException|IOException e) {
-            printError("Failed with redirection.");
-            printError("<a href='./join.jsp'>Click here to be redirected</a>");
-        }
+        CoCoEditor.leave(session);
     }
     
-    private void directEdit(HttpServletRequest request, HttpServletResponse response) {
-        
-    }
+//    private void directCreate(HttpServletRequest request, HttpServletResponse response) {
+//        
+////        int index = request.getRequestURL().indexOf("/CoCoEditor/");
+////        String requestURL = request.getRequestURL().substring(
+////                index + 12 //12 is size of /CoCoEditor/
+////        );
+////        System.out.println("query: [" + requestURL + "]");
+////        //return;
+//        
+//        //clean up any session attributes we may have
+//        HttpSession session = request.getSession();
+//        session.removeAttribute(AttributeNames.USER_ID.getKey());
+//        
+//        String url;
+//          
+//
+//        //request.setAttribute("sid", request.getParameter("sid"));
+//        if(session.getAttribute(AttributeNames.SESSION_ID.getKey()) != null) {
+//            //This is stored in the session now
+//            //response.setAttribute("sid",request.getParameter("sid"));
+//
+//            //make sure it's an active session
+//            if (!DatabaseStatus.instance().hasSession(
+//                session.getAttribute(AttributeNames.SESSION_ID.getKey()).toString()
+//            )) {
+//                //has session key, but it's invalid.
+//                //Clean it and bounce to create.
+//                session.removeAttribute(AttributeNames.SESSION_ID.getKey());
+//                url = "create.jsp";
+//                //response.sendRedirect("./create.jsp");
+//            } else
+//                url = "join.jsp";
+//                //response.sendRedirect("./join.jsp");
+//        } else {
+//            url = "create.jsp";
+//            //response.sendRedirect("./create.jsp");
+//        }
+//        
+////        if (requestURL.equalsIgnoreCase(url)) {
+////            return;
+////        }
+//        
+//        RequestDispatcher dispatcher = request.getRequestDispatcher(url);
+//        
+//        try {
+//            dispatcher.include(request, response);
+//        } catch (ServletException|IOException e) {
+//            printError("Failed with redirection.");
+//            printError("<a href='./join.jsp'>Click here to be redirected</a>");
+//        }
+//    }
+//    
+//    private void directEdit(HttpServletRequest request, HttpServletResponse response) {
+//        
+//    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
