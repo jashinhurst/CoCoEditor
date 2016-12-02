@@ -49,6 +49,7 @@
                     <a href="javascript:void(0)" onclick="show_hide('file_drop')" class="dropbtn" draggable="false">File</a>
                     <div id="file_drop" class="dropdown">
                         <a href="#" draggable="false">Download</a>
+                        <a href="#" onclick="showSession()">Session ID..</a>
                         <a href="javascript:window.close()" draggable="false">Quit</a>
                     </div>
                 </li>
@@ -69,8 +70,7 @@
                 <li>
                     <a href="javascript:void(0)" onclick="show_hide('help_drop')" class="dropbtn" draggable="false">Help</a>
                     <div id="help_drop" class="dropdown">
-                        <a href="#" draggable="false">Download</a>
-                        <a href="#" draggable="false">Quit</a>
+                        <a href="https://weave.cs.nmt.edu/apollo.8/project/" draggable="false">Project Info</a>
                     </div>
                 </li>
             </ul>
@@ -79,12 +79,20 @@
             return x;
         }</div>
             
-            <div id="textarea_footer">
-                <select>
-                    <option onclick="changeMode('javascript')">Javascript</option>
-                    <option onclick="changeMode('csharp')">C#</option>
-                </select>
-            </div>
+            <table id="textarea_footer" class="footer_info">
+                <tr>
+                    <td>
+                        <select>
+                            <option onclick="changeMode('javascript')">Javascript</option>
+                            <option onclick="changeMode('csharp')">C#</option>
+                        </select>
+                    </td>
+                    <td>
+                        <div id="char_count" class="footer_info"> &nbsp;&nbsp;&nbsp;Character Count</div>
+                    </td>
+                </tr>
+                
+            </table>
             
         </div>
         
@@ -97,6 +105,10 @@
             function changeMode(mode) {
                 mode = "ace/mode/" + mode;
                 editor.getSession().setMode(mode)
+            }
+            function showSession() {
+                var text_sid = session.getAttribute(sid);
+                window.alert(text_sid);
             }
         </script>
     </body>
