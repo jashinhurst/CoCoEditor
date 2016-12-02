@@ -6,7 +6,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>CoCoEditor</servlet-name>
-        <url-pattern>/dev/test/secret/data/*</url-pattern>
+        <url-pattern>/data/*</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
