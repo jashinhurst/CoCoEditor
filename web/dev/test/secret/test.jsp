@@ -17,7 +17,12 @@
             
             function addText(stringText) {
                 var xhttp = new XMLHttpRequest();
-                xhttp.onreadystatechange = function() {};
+                xhttp.onreadystatechange = function() {
+                    if (this.readyState !== 4 || this.status !== 200)
+                        return;
+                    
+                    refreshText();
+                };
                 xhttp.open("POST", "data/addText.xml");
                 xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
                 xhttp.send("text=" + stringText);
@@ -33,7 +38,11 @@
             
             function sendDelete(len) {
                 var xhttp = new XMLHttpRequest();
-                xhttp.onreadystatechange = function() {};
+                xhttp.onreadystatechange = function() {
+                    if (this.readyState !== 4 || this.status !== 200)
+                        return;
+                    refreshText();
+                };
                 xhttp.open("POST", "data/delete.xml");
                 xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
                 xhttp.send("count=" + len);
@@ -73,6 +82,8 @@
                 var input = document.getElementById("textfield");
                 var text = input.value;
                 addText(text);
+                
+                //refreshText(target)
             }
             
             function doPos() {
@@ -85,6 +96,8 @@
                 var input = document.getElementById("delfield");
                 var len = input.value;
                 sendDelete(len);
+                
+                //refreshText(target);
             }
         </script>
     </head>
