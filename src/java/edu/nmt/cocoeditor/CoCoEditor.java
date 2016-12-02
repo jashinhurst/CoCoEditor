@@ -400,6 +400,7 @@ public class CoCoEditor extends HttpServlet {
         switch (requestedFile) {
             case "addText.xml": handleText(request, response); break;
             case "setPos.xml": handlePos(request, response); break;
+            case "getText.xml": handleGetText(request, response); break;
             
             default:
                 System.out.println("Invalid request received: " + requestedFile);
@@ -480,6 +481,17 @@ public class CoCoEditor extends HttpServlet {
         String pos = (String) o;
         
         CoCoEditor.moveCursor(request.getSession(), Integer.valueOf(pos));
+    }
+    
+    private void handleGetText(HttpServletRequest request, HttpServletResponse response) {
+        
+        try {
+            response.getWriter().print(CoCoEditor.fetchText(request.getSession()));
+        } catch (IOException e) {
+            System.out.println("Encountered IO Exception: ");
+            System.out.println(e.getMessage());
+        }
+        
     }
     
     private void handleDelete(HttpServletRequest request, HttpServletResponse response) {
