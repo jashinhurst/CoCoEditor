@@ -167,8 +167,11 @@ public class CoCoEditor extends HttpServlet {
         User user = getUser(session);
         if (user == null)
             return; 
+        ActiveSession as = getSession(session);
+        pos = Math.min(pos, as.getText().length());
         
         user.setPos(pos);
+        System.out.println("Setting pos to " + pos);
     }
 
     /**
@@ -396,6 +399,7 @@ public class CoCoEditor extends HttpServlet {
         System.out.println("valid session!");
         switch (requestedFile) {
             case "addText.xml": handleText(request, response); break;
+            case "setPos.xml": handlePos(request, response); break;
             
             default:
                 System.out.println("Invalid request received: " + requestedFile);
@@ -459,6 +463,23 @@ public class CoCoEditor extends HttpServlet {
         String text = (String) o;
         
         CoCoEditor.addText(request.getSession(), text);
+    }
+    
+    private void handlePos(HttpServletRequest request, HttpServletResponse response) {
+        
+        //valid session. Fetch pos from request, and perform moveCursor
+        Object o = request.getParameter(AjaxAttributes.MOVE_POS.getKey());
+        if (o == null || !(o instanceof String)) {
+            if (o == null)
+                System.out.println("Invalid text attribute: null");
+            else
+                System.out.println("Invalid attribute pos: " + o.toString());
+            return;
+        }
+        
+        String pos = (String) o;
+        
+        CoCoEditor.moveCursor(request.getSession(), Integer.valueOf(pos));
     }
     
     private void handleDelete(HttpServletRequest request, HttpServletResponse response) {

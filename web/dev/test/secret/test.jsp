@@ -14,12 +14,36 @@
         <title>CoCoEditor</title>
         
         <script type="text/javascript">
-            function addText() {
+            
+            function addText(stringText) {
                 var xhttp = new XMLHttpRequest();
                 xhttp.onreadystatechange = function() {};
                 xhttp.open("POST", "data/addText.xml");
                 xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-                xhttp.send("text=add123");
+                xhttp.send("text=" + stringText);
+            }
+            
+            function setPos(pos) {
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function() {};
+                xhttp.open("POST", "data/setPos.xml");
+                xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                xhttp.send("pos=" + pos);
+            }
+            
+            
+            // Helper methods. Ignore these
+            
+            function doText() {
+                var input = document.getElementById("textfield");
+                var text = input.value;
+                addText(text);
+            }
+            
+            function doPos() {
+                var input = document.getElementById("posfield");
+                var pos = input.value;
+                setPos(pos)
             }
         </script>
     </head>
@@ -41,7 +65,12 @@
             
         </div>
         <div>
-            <button name="addText" onclick="addText()">Add Text</button>
+            <input type="text" value="Enter Text" name="intext" id="textfield" />
+            <button name="addText" onclick="doText()">Add Text</button>
+        </div>
+        <div>
+            <input type="text" value="Enter new POS" name="inpos" id="posfield" />
+            <button name="addText" onclick="doPos()">Set Pos</button>
         </div>
     </body>
 </html>

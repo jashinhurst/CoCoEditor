@@ -11,7 +11,8 @@ package edu.nmt.cocoeditor;
  */
 public enum AjaxAttributes {
     TEXT_TEXT("text"),
-    DELETE_COUNT("count");
+    DELETE_COUNT("count"),
+    MOVE_POS("pos");
     
     private String key;
     
