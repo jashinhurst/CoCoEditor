@@ -53,7 +53,7 @@ public class CoCoEditor extends HttpServlet {
     public static CoCoEditor instance() {
         if (instance == null) {
             instance = new CoCoEditor();
-            System.out.println("Making a NEW editor!");
+            //System.out.println("Making a NEW editor!");
         }
         
         return instance;
@@ -172,7 +172,7 @@ public class CoCoEditor extends HttpServlet {
         pos = Math.max(pos, 0);
         
         user.setPos(pos);
-        System.out.println("Setting pos to " + pos);
+        //System.out.println("Setting pos to " + pos);
     }
 
     /**
@@ -217,7 +217,7 @@ public class CoCoEditor extends HttpServlet {
      **/
     public static void addText(HttpSession session, String text) {
         
-        System.out.println("Adding text: " + text);
+        //System.out.println("Adding text: " + text);
         ActiveSession activesession = getSession(session);
         if (activesession == null) {
             return;
@@ -290,8 +290,12 @@ public class CoCoEditor extends HttpServlet {
         );
         
         if (sid == null || !(sid instanceof String)) {
+            CoCoEditor.printError("Null sid attribute");
             return null;
         }
+        
+        //CoCoEditor.printError("sid: " + (String) sid);
+        
         
         ActiveSession activesession = instance().sessions.get((String) sid);
         return activesession;
@@ -353,11 +357,15 @@ public class CoCoEditor extends HttpServlet {
         User user = getUser(session);
         
         if (asession == null || user == null) {
+            CoCoEditor.printError((asession == null ? "Session" : "User")
+                    + " encountered error");
             return false;
         }
         
-        if (!user.isValid())
+        if (!user.isValid()) {
+            CoCoEditor.printError("User is invalid!");
             return false;
+        }
         
         return true;
     }
@@ -382,26 +390,31 @@ public class CoCoEditor extends HttpServlet {
         
         CoCoEditor.setErrorOutput(response.getWriter());
         
-        HttpSession session = request.getSession();
-        System.out.println("Handling request!");
+        HttpSession session = request.getSession(false);
+        if (session == null) {
+            //response.getWriter().println("<> <> <> Session is null");
+            return;
+        }
+        
+        //System.out.println("Handling request!");
         
         
         String requestedFile = request.getRequestURI();
         int index = requestedFile.lastIndexOf("/");
         requestedFile = requestedFile.substring(index + 1);
         
-        System.out.println("request: >" + requestedFile);
+        //System.out.println("request: >" + requestedFile);
         
         if (requestedFile == null || requestedFile.trim().isEmpty())
             return;
         
         if (!isValidSession(session)) {
             CoCoEditor.printError("Invalid session");
-            System.out.println("Invalid session");
+            //System.out.println("Invalid session");
             return;
         }
         
-        System.out.println("valid session!");
+        //System.out.println("valid session!");
         switch (requestedFile) {
             case "addText.xml": handleText(request, response); break;
             case "setPos.xml": handlePos(request, response); break;
@@ -410,7 +423,7 @@ public class CoCoEditor extends HttpServlet {
             case "leave.xml": handleLeave(request, response); break;
             
             default:
-                System.out.println("Invalid request received: " + requestedFile);
+                //System.out.println("Invalid request received: " + requestedFile);
                 return;
         }
         
@@ -461,10 +474,10 @@ public class CoCoEditor extends HttpServlet {
         //valid session. Fetch text from request, and perform addText
         Object o = request.getParameter(AjaxAttributes.TEXT_TEXT.getKey());
         if (o == null || !(o instanceof String)) {
-            if (o == null)
-                System.out.println("Invalid text attribute: null");
-            else
-                System.out.println("Invalid attribute text: " + o.toString());
+//            if (o == null)
+//                //System.out.println("Invalid text attribute: null");
+//            else
+//                //System.out.println("Invalid attribute text: " + o.toString());
             return;
         }
         
@@ -478,10 +491,10 @@ public class CoCoEditor extends HttpServlet {
         //valid session. Fetch pos from request, and perform moveCursor
         Object o = request.getParameter(AjaxAttributes.MOVE_POS.getKey());
         if (o == null || !(o instanceof String)) {
-            if (o == null)
-                System.out.println("Invalid text attribute: null");
-            else
-                System.out.println("Invalid attribute pos: " + o.toString());
+//            if (o == null)
+//                //System.out.println("Invalid text attribute: null");
+//            else
+//                //System.out.println("Invalid attribute pos: " + o.toString());
             return;
         }
         
@@ -495,8 +508,8 @@ public class CoCoEditor extends HttpServlet {
         try {
             response.getWriter().print(CoCoEditor.fetchText(request.getSession()));
         } catch (IOException e) {
-            System.out.println("Encountered IO Exception: ");
-            System.out.println(e.getMessage());
+            //System.out.println("Encountered IO Exception: ");
+            //System.out.println(e.getMessage());
         }
         
     }
@@ -505,10 +518,10 @@ public class CoCoEditor extends HttpServlet {
         
         Object o = request.getParameter(AjaxAttributes.DELETE_COUNT.getKey());
         if (o == null || !(o instanceof String)) {
-            if (o == null)
-                System.out.println("Invalid text attribute: null");
-            else
-                System.out.println("Invalid attribute delete count: " + o.toString());
+//            if (o == null)
+//                //System.out.println("Invalid text attribute: null");
+//            else
+//                //System.out.println("Invalid attribute delete count: " + o.toString());
             return;
         }
         

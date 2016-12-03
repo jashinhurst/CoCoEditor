@@ -29,6 +29,109 @@
                     }
                 }
             }
+            
+            /////////////////////////////////////////
+            //          Data Functions             //
+            /////////////////////////////////////////
+            
+            /**
+             * Adds the provided stringText to the remote database.
+             * After calling the remote method, returns the database's
+             * version of the string (post adding text)
+             * @param {String} stringText
+             * @returns nothing
+             */
+            function addText(stringText) {
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function() {
+                    if (this.readyState !== 4 || this.status !== 200)
+                        return;
+                    
+                    refreshText();
+                };
+                xhttp.open("POST", "data/addText.xml");
+                xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                xhttp.send("text=" + stringText);
+            }
+            
+            /**
+             * Sets the cursor position for the current user
+             * @param int pos the position to set the cursor to
+             * @returns nothing
+             */
+            function setPos(pos) {
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function() {};
+                xhttp.open("POST", "data/setPos.xml");
+                xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                xhttp.send("pos=" + pos);
+            }
+            
+            /**
+             * Deletes some number of characters, from the current user's
+             * remote position. Deletion is done backwards, as if the user
+             * pressed backspace {len} times.
+             * Refreshes the text after deleting remotely
+             * @param int len
+             * @returns nothing
+             */
+            function sendDelete(len) {
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function() {
+                    if (this.readyState !== 4 || this.status !== 200)
+                        return;
+                    refreshText();
+                };
+                xhttp.open("POST", "data/delete.xml");
+                xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                xhttp.send("count=" + len);
+            }
+            
+            /**
+             * Fetches the text from the server.
+             * !Note For Josh!
+             * 
+             * Please change this method to set the text in the editor, rather
+             * than the innerhtml of some div (unless that's how you set it).
+             * This method is called by addText and delete, so it's important
+             * it's correct. It might also make sense to call it as soon as
+             * the user gets to this page.
+             * 
+             * !End Note!
+             * @param the div to set the innerhtml of targetID
+             * @returns nothing
+             */
+            function refreshText(targetID = "content") {
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function() {
+                    if (this.readyState !== 4 || this.status !== 200)
+                        return;
+                    
+                    var element = document.getElementById(targetID);
+                    if (typeof element === 'undefined') {
+                        //do nothing. 
+                        return;
+                    }
+                    
+                    element.innerHTML = this.responseText;
+                };
+                xhttp.open("POST", "data/getText.xml");
+                xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                xhttp.send("");
+            }
+            
+            /**
+             * Marks this user's session as invalid. Should probably also
+             * bounce back to the CoCoEditor home page or something
+             * @returns nothing
+             */
+            function leave() {
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function() {};
+                xhttp.open("POST", "data/leave.xml");
+                xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                xhttp.send("");
+            }
         </script>
         <title>CoCo Editor</title>
         <link rel="icon" href="logodark.png" />

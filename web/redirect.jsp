@@ -38,8 +38,10 @@
                 //response.sendRedirect("./editor.jsp");
             }
             out.println("session id: ");
-            out.println(session.getAttribute("sid"));
+            out.println(session.getAttribute(sid));
             out.println("<br>");
+            
+            out.println("<a href='test.jsp'>Test page</a>");
 
         %>
     </body>
