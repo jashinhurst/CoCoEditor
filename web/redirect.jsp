@@ -35,13 +35,11 @@
                 String alias = request.getParameter(aid);
                 session.setAttribute(sid, sessionID);
                 session.setAttribute(uid, CoCoEditor.submit(sessionID, alias));
-                //response.sendRedirect("./editor.jsp");
+                response.sendRedirect("./editor.jsp");
             }
             out.println("session id: ");
             out.println(session.getAttribute(sid));
             out.println("<br>");
-            
-            out.println("<a href='test.jsp'>Test page</a>");
 
         %>
     </body>

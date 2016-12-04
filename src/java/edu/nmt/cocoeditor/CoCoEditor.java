@@ -352,7 +352,7 @@ public class CoCoEditor extends HttpServlet {
      * @param session
      * @return 
      */
-    private boolean isValidSession(HttpSession session) {
+    public static boolean isValidSession(HttpSession session) {
         ActiveSession asession = getSession(session);
         User user = getUser(session);
         
@@ -408,7 +408,7 @@ public class CoCoEditor extends HttpServlet {
         if (requestedFile == null || requestedFile.trim().isEmpty())
             return;
         
-        if (!isValidSession(session)) {
+        if (!CoCoEditor.isValidSession(session)) {
             CoCoEditor.printError("Invalid session");
             //System.out.println("Invalid session");
             return;

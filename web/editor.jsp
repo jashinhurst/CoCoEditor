@@ -3,9 +3,18 @@
 <%-- 
     Document   : editor.jsp
     Created on : Nov 19, 2016, 2:27:21 PM
-    Author     : jashinhurst
+    Author     : jashinhurst, Skyler
 --%>
 <%@page import="edu.nmt.cocoeditor.CoCoEditor"%>
+
+<%
+  if (!CoCoEditor.isValidSession(request.getSession())) {
+      //invalid session. Bounce to index page
+      response.sendRedirect("index.jsp");
+  }  
+    
+%>
+
 <html>
     <head>
         <script>
@@ -56,7 +65,7 @@
             
             /**
              * Sets the cursor position for the current user
-             * @param int pos the position to set the cursor to
+             * @param pos the position to set the cursor to
              * @returns nothing
              */
             function setPos(pos) {
@@ -72,7 +81,7 @@
              * remote position. Deletion is done backwards, as if the user
              * pressed backspace {len} times.
              * Refreshes the text after deleting remotely
-             * @param int len
+             * @param len
              * @returns nothing
              */
             function sendDelete(len) {
@@ -98,7 +107,7 @@
              * the user gets to this page.
              * 
              * !End Note!
-             * @param the div to set the innerhtml of targetID
+             * @param targetID the div to set the innerhtml of targetID
              * @returns nothing
              */
             function refreshText(targetID) {
