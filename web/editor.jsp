@@ -136,10 +136,13 @@
              */
             function leave() {
                 var xhttp = new XMLHttpRequest();
-                xhttp.onreadystatechange = function() {};
+                xhttp.onreadystatechange = function() {
+                    window.location.href = "index.jsp";
+                };
                 xhttp.open("POST", "data/leave.xml");
                 xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
                 xhttp.send("");
+                
             }
         </script>
         <title>CoCo Editor</title>
@@ -162,7 +165,7 @@
                     <div id="file_drop" class="dropdown">
                         <a href="#" draggable="false">Download</a>
                         <a href="#" draggable="false">Session ID..</a>
-                        <a href="javascript:leave(); window.close()" draggable="false">Quit</a>
+                        <a href="#" onclick="leave();" draggable="false">Quit</a>
                     </div>
                 </li>
                 <li>
