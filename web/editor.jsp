@@ -101,7 +101,7 @@
              * @param the div to set the innerhtml of targetID
              * @returns nothing
              */
-            function refreshText(targetID = "content") {
+            function refreshText(targetID) {
                 var xhttp = new XMLHttpRequest();
                 xhttp.onreadystatechange = function() {
                     if (this.readyState !== 4 || this.status !== 200)
@@ -152,8 +152,8 @@
                     <a href="javascript:void(0)" onclick="show_hide('file_drop')" class="dropbtn" draggable="false">File</a>
                     <div id="file_drop" class="dropdown">
                         <a href="#" draggable="false">Download</a>
-                        <a href="#" onclick="showSession()">Session ID..</a>
-                        <a href="javascript:window.close()" draggable="false">Quit</a>
+                        <a href="#" draggable="false">Session ID..</a>
+                        <a href="javascript:leave(); window.close()" draggable="false">Quit</a>
                     </div>
                 </li>
                 <li>
@@ -162,6 +162,7 @@
                         <a href="#" onclick="editor.selectAll()" draggable="false">Select All</a>
                         <a href="#" onclick="editor.undo()" draggable="false">Undo</a>
                         <a href="#" onclick="editor.redo()" draggable="false">Redo</a>
+                    </div>
                 </li>
                 <li>
                     <a href="javascript:void(0)" onclick="show_hide('view_drop')" class="dropbtn" draggable="false">View</a>
@@ -177,18 +178,18 @@
                 </li>
             </ul>
         <div style="height: 100%;" id="textarea">function foo(items) {
-            var x = "All this is syntax highlighted";
-            return x;
+    var x = "All this is syntax highlighted";
+    return x;
 }</div>
             
             <table id="textarea_footer" class="footer_info">
                 <tr>
                     <td>
-                        <select>
+                        <select onclick="this.options[this.selectedIndex].onclick()">
                             <option onclick="changeMode('csharp')">C#</option>
                             <option onclick="changeMode('c_cpp')">C++</option>
                             <option onclick="changeMode('html')">HTML</option>
-                            <option onclick="changeMode('javascript')">Javascript</option>
+                            <option onclick="changeMode('javascript')" selected="selected">Javascript</option>
                             <option onclick="changeMode('lua')">Lua</option>
                             <option onclick="changeMode('perl')">Perl</option>
                             <option onclick="changeMode('plain_text')">Plain Text</option>
@@ -218,11 +219,16 @@
             }
             window.onload = function() {
                 var count = "&nbsp;&nbsp;&nbsp;&nbsp;Character Count: " + editor.getSession().getValue().length;
-                document.getElementById('char_count').innerHTML = count;
+                var row = editor.selection.getCursor().row;
+                var column = editor.selection.getCursor().column;
+                document.getElementById('char_count').innerHTML = count + " " + row + ":" + column;
+                //refreshText('textarea');
             };
             editor.getSession().on('change', function() {
                 var count = "&nbsp;&nbsp;&nbsp;&nbsp;Character Count: " + editor.getSession().getValue().length;
-                document.getElementById('char_count').innerHTML = count;
+                var row = editor.selection.getCursor().row;
+                var column = editor.selection.getCursor().column;
+                document.getElementById('char_count').innerHTML = count + " " + row + ":" + column;
             });
             function switchTheme() {
                 if (theme_counter % 2 === 0) {
