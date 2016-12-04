@@ -38,9 +38,9 @@
             <form action="redirect.jsp" method="post">
             <center>
                 <strong>Session ID: </strong><br />
-                <input maxlength="10" type="text" name="<%= edu.nmt.cocoeditor.AttributeNames.SESSION_ID.getKey() %>" required><br />
+                <input maxlength="24" type="text" name="<%= edu.nmt.cocoeditor.AttributeNames.SESSION_ID.getKey() %>" required><br />
                 <strong>Alias: </strong><br />
-                <input maxlength="24" type="text" name="<%= edu.nmt.cocoeditor.AttributeNames.ALIAS_ID.getKey() %>" required>
+                <input maxlength="10" type="text" name="<%= edu.nmt.cocoeditor.AttributeNames.ALIAS_ID.getKey() %>" required>
             </center>
             <br />
             <center>

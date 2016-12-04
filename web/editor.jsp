@@ -195,10 +195,13 @@
                 <tr>
                     <td>
                         <select onclick="this.options[this.selectedIndex].onclick()">
+                            <option onclick="changeMode('bash')">Bash</option>
                             <option onclick="changeMode('csharp')">C#</option>
                             <option onclick="changeMode('c_cpp')">C++</option>
                             <option onclick="changeMode('html')">HTML</option>
+                            <option onclick="changeMode('java')">Java</option>
                             <option onclick="changeMode('javascript')" selected="selected">Javascript</option>
+                            <option onclick="changeMode('lisp')">Lisp</option>
                             <option onclick="changeMode('lua')">Lua</option>
                             <option onclick="changeMode('perl')">Perl</option>
                             <option onclick="changeMode('plain_text')">Plain Text</option>
