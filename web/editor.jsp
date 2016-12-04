@@ -185,7 +185,7 @@
                 <li>
                     <a href="javascript:void(0)" onclick="show_hide('help_drop')" class="dropbtn" draggable="false">Help</a>
                     <div id="help_drop" class="dropdown">
-                        <a href="https://weave.cs.nmt.edu/apollo.8/project/" draggable="false">Project Info</a>
+                        <a href="https://weave.cs.nmt.edu/apollo.8/project/" target="_blank" draggable="false">Project Info</a>
                     </div>
                 </li>
             </ul>
