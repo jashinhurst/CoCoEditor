@@ -26,20 +26,40 @@
             String uid = AttributeNames.USER_ID.getKey();
             String sid = AttributeNames.SESSION_ID.getKey();
             String aid = AttributeNames.ALIAS_ID.getKey();
-            if(request.getParameter(aid) != null){
-                CoCoEditor.setErrorOutput(response.getWriter());
-                out.println("create: ");
-                String sessionID = null;
-                sessionID = CoCoEditor.createSession();
-                out.println(sessionID +"<br>");
-                String alias = request.getParameter(aid);
-                session.setAttribute(sid, sessionID);
-                session.setAttribute(uid, CoCoEditor.submit(sessionID, alias));
-                response.sendRedirect("./editor.jsp");
+            
+            if (request.getParameter(aid) == null) {
+                response.sendRedirect("index.jsp");
+                return;
             }
-            out.println("session id: ");
-            out.println(session.getAttribute(sid));
-            out.println("<br>");
+            
+            
+            CoCoEditor.setErrorOutput(response.getWriter());
+            String sessionID = null;
+            String alias = request.getParameter(aid);
+            
+            if (request.getParameter(sid) != null) {
+                //trying to join a session
+                sessionID = request.getParameter(sid);
+                if (!CoCoEditor.canJoinSession(sessionID)) {
+                    //not a valid session. Bounce back.
+                    response.sendRedirect("join.jsp");
+                }
+            } else {
+                //out.println("create: ");
+                sessionID = CoCoEditor.createSession();
+                //out.println(sessionID +"<br>");
+            }
+            
+            
+            session.setAttribute(sid, sessionID);
+            session.setAttribute(uid, CoCoEditor.submit(sessionID, alias));
+            response.sendRedirect("./editor.jsp");
+            
+            
+            
+            //out.println("session id: ");
+            //out.println(session.getAttribute(sid));
+            //out.println("<br>");
 
         %>
     </body>

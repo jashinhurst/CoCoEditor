@@ -346,6 +346,20 @@ public class CoCoEditor extends HttpServlet {
     }
     
     /**
+     * Checks whether the given session is valid and accepting people.
+     * This is the check to see whether joining a session is allowed
+     * @param sessionID
+     * @return true when the session can be joined, false otherwise
+     */
+    public static boolean canJoinSession(String sessionID) {
+        if (!CoCoEditor.instance().sessions.containsKey(sessionID))
+            return false;
+        
+        //if we have more security checks, can go here.
+        return true;
+    }
+    
+    /**
      * Checks whether the given session is valid and active. This
      * includes whether it has a user and session, and whether both
      * are still valid.
