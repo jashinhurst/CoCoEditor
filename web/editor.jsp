@@ -10,7 +10,11 @@
 <%
   if (!CoCoEditor.isValidSession(request.getSession())) {
       //invalid session. Bounce to index page
-      response.sendRedirect("index.jsp");
+      //response.sendRedirect("index.jsp");
+      
+        RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
+        rd.forward(request, response);
+        return;
   }  
     
 %>
@@ -122,7 +126,8 @@
                         return;
                     }
                     
-                    element.innerHTML = this.responseText;
+                    //element.innerHTML = this.responseText;
+                    editor.getSession().getDocument().setValue(this.responseText);
                 };
                 xhttp.open("POST", "data/getText.xml");
                 xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -239,11 +244,23 @@
                 document.getElementById('char_count').innerHTML = count + " " + row + ":" + column;
                 //refreshText('textarea');
             };
-            editor.getSession().on('change', function() {
+            editor.getSession().on('change', function(obj) {
                 var count = "&nbsp;&nbsp;&nbsp;&nbsp;Character Count: " + editor.getSession().getValue().length;
                 var row = editor.selection.getCursor().row;
                 var column = editor.selection.getCursor().column;
                 document.getElementById('char_count').innerHTML = count + " " + row + ":" + column;
+                
+//                if (obj.action === "insert") {
+//                    //fetch lines from obj.lines. It's an array of strings
+//                    //ignore, pretend it's only one for now
+//                    var change = obj.lines[1];
+//                    //addText(change);
+//                } else if (obj.action === "remove") {
+//                    
+//                }
+                
+                //alert(obj.toSource());
+                //addText(obj);
             });
             function switchTheme() {
                 if (theme_counter % 2 === 0) {

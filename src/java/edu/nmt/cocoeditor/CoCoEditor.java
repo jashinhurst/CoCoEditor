@@ -352,6 +352,9 @@ public class CoCoEditor extends HttpServlet {
      * @return true when the session can be joined, false otherwise
      */
     public static boolean canJoinSession(String sessionID) {
+        if (instance().sessions == null)
+            instance().sessions = new HashMap<>();
+        
         if (!CoCoEditor.instance().sessions.containsKey(sessionID))
             return false;
         

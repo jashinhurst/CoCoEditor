@@ -28,7 +28,9 @@
             String aid = AttributeNames.ALIAS_ID.getKey();
             
             if (request.getParameter(aid) == null) {
-                response.sendRedirect("index.jsp");
+                //response.sendRedirect("index.jsp");
+                RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
+                rd.forward(request, response);
                 return;
             }
             
@@ -42,7 +44,11 @@
                 sessionID = request.getParameter(sid);
                 if (!CoCoEditor.canJoinSession(sessionID)) {
                     //not a valid session. Bounce back.
-                    response.sendRedirect("join.jsp");
+                    //response.sendRedirect("join.jsp");
+                    
+                    RequestDispatcher rd = request.getRequestDispatcher("join.jsp");
+                    rd.forward(request, response);
+                    return;
                 }
             } else {
                 //out.println("create: ");
@@ -53,7 +59,11 @@
             
             session.setAttribute(sid, sessionID);
             session.setAttribute(uid, CoCoEditor.submit(sessionID, alias));
-            response.sendRedirect("./editor.jsp");
+            
+            //response.sendRedirect("editor.jsp");
+            
+            RequestDispatcher rd = request.getRequestDispatcher("editor.jsp");
+            rd.forward(request, response);
             
             
             
