@@ -37,7 +37,7 @@
                         dropdowns[i].style.display = 'none';
                     }
                 }
-            }
+            };
             
             /////////////////////////////////////////
             //          Data Functions             //
