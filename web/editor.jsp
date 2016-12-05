@@ -244,24 +244,40 @@
                 document.getElementById('char_count').innerHTML = count + " " + row + ":" + column;
                 //refreshText('textarea');
             };
-            editor.getSession().on('change', function(obj) {
+            editor.getSession().on('change', onChangeEvent);
+            editor.getSession().getDocument().addEventListener("change",onVanillaChange);
+            
+            function onChangeEvent(obj) {
                 var count = "&nbsp;&nbsp;&nbsp;&nbsp;Character Count: " + editor.getSession().getValue().length;
                 var row = editor.selection.getCursor().row;
                 var column = editor.selection.getCursor().column;
+                
                 document.getElementById('char_count').innerHTML = count + " " + row + ":" + column;
+//                eventHandler.removeEventListener("change",onChangeEvent);
+                //alert("hi");
+            }
+            var changing = false;
+            function onVanillaChange(obj){
                 
-//                if (obj.action === "insert") {
-//                    //fetch lines from obj.lines. It's an array of strings
-//                    //ignore, pretend it's only one for now
-//                    var change = obj.lines[1];
-//                    //addText(change);
-//                } else if (obj.action === "remove") {
-//                    
-//                }
-                
+                if(changing){
+                    return;
+                }else{
+                    changing = true;
+                }
+                if (obj.action === "insert") {
+                    //fetch lines from obj.lines. It's an array of strings
+                    //ignore, pretend it's only one for now
+                    var change = obj.lines[0];
+                    addText(change);
+                } else if (obj.action === "remove") {
+                    
+                }
+                //alert("help me");
                 //alert(obj.toSource());
                 //addText(obj);
-            });
+                //eventHandler.addEventListener("change",onChangeEvent);
+                changing = false;
+            }
             function switchTheme() {
                 if (theme_counter % 2 === 0) {
                     editor.setTheme("ace/theme/textmate");
