@@ -194,10 +194,8 @@
                     </div>
                 </li>
             </ul>
-        <div style="height: 100%;" id="textarea">function foo(items) {
-    var x = "All this is syntax highlighted";
-    return x;
-}</div>
+                <div style="height: 100%;" id="textarea">
+                    <%= CoCoEditor.fetchText(request.getSession())%></div>
             
             <table id="textarea_footer" class="footer_info">
                 <tr>
@@ -231,6 +229,8 @@
         <script>
             var editor = ace.edit("textarea");
             var theme_counter = 0;
+            var dirty = false;
+            var deltaList = new Array();
             editor.setTheme("ace/theme/monokai");
             editor.getSession().setMode("ace/mode/javascript");
             function changeMode(mode) {
@@ -242,42 +242,87 @@
                 var row = editor.selection.getCursor().row;
                 var column = editor.selection.getCursor().column;
                 document.getElementById('char_count').innerHTML = count + " " + row + ":" + column;
-                //refreshText('textarea');
+                refreshText('textarea');
+                dirty=false;
+                window.setTimeout(timerEvent,3000);
             };
+            var isUser = false;
+            window.onkeydown = function(){
+                isUser = true;
+            }
             editor.getSession().on('change', onChangeEvent);
-            editor.getSession().getDocument().addEventListener("change",onVanillaChange);
+            //editor.getSession().getDocument().addEventListener("change",onVanillaChange);
             
             function onChangeEvent(obj) {
                 var count = "&nbsp;&nbsp;&nbsp;&nbsp;Character Count: " + editor.getSession().getValue().length;
                 var row = editor.selection.getCursor().row;
                 var column = editor.selection.getCursor().column;
-                
+                if(!isUser){
+                    return;
+                }
                 document.getElementById('char_count').innerHTML = count + " " + row + ":" + column;
+                
+                dirty=true;
+                deltaList[deltaList.length] = obj;
+                isUser=false;
+                //alert(obj.toSource());
 //                eventHandler.removeEventListener("change",onChangeEvent);
                 //alert("hi");
             }
-            var changing = false;
-            function onVanillaChange(obj){
-                
-                if(changing){
-                    return;
+            var text;
+            function timerEvent(){
+                var textData;
+                if(dirty){
+                    if(deltaList.length !== 0){
+                        for(var i=0; i < deltaList.length; i++){
+                            textData = deltaList[i];
+                            //alert("here " + textData.toSource());
+                            var pos = convertPos(textData.start);
+                            setPos(pos);
+                            addText(textData.lines[0]);
+                        }
+                        //refreshText("textarea");
+                    }
                 }else{
-                    changing = true;
+                    refreshText("textarea");
                 }
-                if (obj.action === "insert") {
-                    //fetch lines from obj.lines. It's an array of strings
-                    //ignore, pretend it's only one for now
-                    var change = obj.lines[0];
-                    addText(change);
-                } else if (obj.action === "remove") {
-                    
-                }
-                //alert("help me");
-                //alert(obj.toSource());
-                //addText(obj);
-                //eventHandler.addEventListener("change",onChangeEvent);
-                changing = false;
+                deltaList = [];
+                dirty = false;
+                window.setTimeout(timerEvent,3000);
             }
+            function convertPos(obj){
+                var col = obj.column;
+                var total = 0;
+                if (col > 0)
+                for (var i = 0; i < col; i++) {
+                    total += editor.getSession().getDocument().getLine(i).length;
+                }
+                total += obj.row;
+                //alert(total);
+                return total;
+            }
+//            var changing = false;
+//            function onVanillaChange(obj){
+//                
+//                if(changing){
+//                    return;
+//                }else{
+//                    changing = true;
+//                }
+//                if (obj.action === "insert") {
+//                    //fetch lines from obj.lines. It's an array of strings
+//                    //ignore, pretend it's only one for now
+//                    var change = obj.lines[0];
+//                    addText(change);
+//                } else if (obj.action === "remove") {
+//                    
+//                }
+//                //alert("help me");
+//                //alert(obj.toSource());
+//                //addText(obj);
+//                //eventHandler.addEventListener("change",onChangeEvent);
+//                changing = false;
+//            }
             function switchTheme() {
                 if (theme_counter % 2 === 0) {
                     editor.setTheme("ace/theme/textmate");
