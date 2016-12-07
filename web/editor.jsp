@@ -52,15 +52,17 @@
              * After calling the remote method, returns the database's
              * version of the string (post adding text)
              * @param {String} stringText
+             * @param {boolean} getText
              * @returns nothing
              */
-            function addText(stringText) {
+            function addText(stringText, getText) {
                 var xhttp = new XMLHttpRequest();
                 xhttp.onreadystatechange = function() {
                     if (this.readyState !== 4 || this.status !== 200)
                         return;
-                    
-                    refreshText();
+                    if(getText){
+                        refreshText();
+                    }
                 };
                 xhttp.open("POST", "data/addText.xml", false);
                 xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -95,7 +97,7 @@
                         return;
                     refreshText();
                 };
-                xhttp.open("POST", "data/delete.xml");
+                xhttp.open("POST", "data/delete.xml", false);
                 xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
                 xhttp.send("count=" + len);
             }
@@ -254,8 +256,17 @@
             };
             var isUser = false;
             var isNL = false;
-            window.onkeydown = function(){
+            window.onkeydown = function(e){
                 isUser = true;
+                var keynum;
+                if(window.event) { // IE                    
+                    keynum = e.keyCode;
+                } else if(e.which){ // Netscape/Firefox/Opera                   
+                    keynum = e.which;
+                }
+                if(keynum === 13){
+                    isNL = true;
+                }
                 
             };
             editor.getSession().on('change', onChangeEvent);
@@ -272,6 +283,11 @@
                 document.getElementById('char_pos').innerHTML = row + ":" + column;
                 
                 dirty=true;
+                
+                if(isNL){
+                    obj.lines = "\n";
+                    isNL = false;
+                }
                 deltaList[deltaList.length] = obj;
                 deltaPos[deltaPos.length] = convertPos(obj.start);
                 isUser=false;
@@ -282,21 +298,28 @@
             var text;
             function timerEvent(){
                 var textData;
+                //alert("inside");
                 if(dirty){
                     if(deltaList.length !== 0){
-                        for(var i=0; i < deltaList.length; i++){
+                        for(var i=0; i < deltaList.length-1; i++){
                             textData = deltaList[i];
                             //alert("here " + textData.toSource());
                             var pos = deltaPos[i];
                             setPos(pos);
-                            //addText(textData.lines[0]);
-                            //alert("placed: " +textData.lines[0] + "inside");
+                            addText(textData.lines[0], false);
+                            //alert("placed: " +textData.lines[0] + " " + i);
                         }
+                        //alert("placing: " + textData.lines[0] + " " + i);
+                        textData = deltaList[i];
+                        pos = deltaPos[i];
+                        setPos(pos);
+                        addText(textData.lines[0], true);
                         //refreshText("textarea");
                     }
                 }else{
-                    //refreshText("textarea");
+                    refreshText("textarea");
                 }
+                //refreshText("textarea");
                 deltaList = [];
                 deltaPos = [];
                 dirty = false;
@@ -304,13 +327,14 @@
             }
             function convertPos(obj){
                 var col = obj.row;
+                var row = obj.column;
                 var total = 0;
                 if (col > 0)
-                for (var i = 0; i < col-1; i++) {
+                for (var i = 0; i < col; i++) {
                     total += editor.getSession().getDocument().getLine(i).length +1;
                 }
                 total += obj.column;
-                //alert(obj.column + " " + total);
+                //alert("Col: " + obj.column + "\nRow: " + obj.row +"\nTotal: "+ total);
                 return total;
             }
 //            var changing = false;
