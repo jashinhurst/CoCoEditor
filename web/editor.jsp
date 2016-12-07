@@ -62,7 +62,7 @@
                     
                     refreshText();
                 };
-                xhttp.open("POST", "data/addText.xml");
+                xhttp.open("POST", "data/addText.xml", false);
                 xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
                 xhttp.send("text=" + stringText);
             }
@@ -168,8 +168,7 @@
                 <li>
                     <a href="javascript:void(0)" onclick="show_hide('file_drop')" class="dropbtn" draggable="false">File</a>
                     <div id="file_drop" class="dropdown">
-                        <a href="#" draggable="false">Download</a>
-                        <a href="#" draggable="false">Session ID..</a>
+                        <a href="#" onclick="displaySessionID();" draggable="false">Session ID..</a>
                         <a href="#" onclick="leave();" draggable="false">Quit</a>
                     </div>
                 </li>
@@ -191,6 +190,7 @@
                     <a href="javascript:void(0)" onclick="show_hide('help_drop')" class="dropbtn" draggable="false">Help</a>
                     <div id="help_drop" class="dropdown">
                         <a href="https://weave.cs.nmt.edu/apollo.8/project/" target="_blank" draggable="false">Project Info</a>
+                        <a href="test.jsp"  draggable="false">Test Page</a>
                     </div>
                 </li>
             </ul>
@@ -218,6 +218,9 @@
                     <td>
                         <p id="char_count" class="footer_info"></p>
                     </td>
+                    <td>
+                        <p id="char_pos" class="footer_info"></p>
+                    </td>
                 </tr>
                 
             </table>
@@ -231,6 +234,8 @@
             var theme_counter = 0;
             var dirty = false;
             var deltaList = new Array();
+            var deltaPos = new Array();
+            var SessionID = "<%= session.getAttribute(sid) %>";
             editor.setTheme("ace/theme/monokai");
             editor.getSession().setMode("ace/mode/javascript");
             function changeMode(mode) {
@@ -238,32 +243,37 @@
                 editor.getSession().setMode(mode);
             }
             window.onload = function() {
-                var count = "&nbsp;&nbsp;&nbsp;&nbsp;Character Count: " + editor.getSession().getValue().length;
+                var count = "Character Count: " + editor.getSession().getValue().length;
                 var row = editor.selection.getCursor().row;
                 var column = editor.selection.getCursor().column;
-                document.getElementById('char_count').innerHTML = count + " " + row + ":" + column;
+                document.getElementById('char_count').innerHTML = count;
+                document.getElementById('char_pos').innerHTML = row + ":" + column;
                 refreshText('textarea');
                 dirty=false;
                 window.setTimeout(timerEvent,3000);
             };
             var isUser = false;
+            var isNL = false;
             window.onkeydown = function(){
                 isUser = true;
-            }
+                
+            };
             editor.getSession().on('change', onChangeEvent);
             //editor.getSession().getDocument().addEventListener("change",onVanillaChange);
             
             function onChangeEvent(obj) {
-                var count = "&nbsp;&nbsp;&nbsp;&nbsp;Character Count: " + editor.getSession().getValue().length;
+                var count = "Character Count: " + editor.getSession().getValue().length;
                 var row = editor.selection.getCursor().row;
                 var column = editor.selection.getCursor().column;
                 if(!isUser){
                     return;
                 }
-                document.getElementById('char_count').innerHTML = count + " " + row + ":" + column;
+                document.getElementById('char_count').innerHTML = count;
+                document.getElementById('char_pos').innerHTML = row + ":" + column;
                 
                 dirty=true;
                 deltaList[deltaList.length] = obj;
+                deltaPos[deltaPos.length] = convertPos(obj.start);
                 isUser=false;
                 //alert(obj.toSource());
 //                eventHandler.removeEventListener("change",onChangeEvent);
@@ -277,28 +287,30 @@
                         for(var i=0; i < deltaList.length; i++){
                             textData = deltaList[i];
                             //alert("here " + textData.toSource());
-                            var pos = convertPos(textData.start);
+                            var pos = deltaPos[i];
                             setPos(pos);
-                            addText(textData.lines[0]);
+                            //addText(textData.lines[0]);
+                            //alert("placed: " +textData.lines[0] + "inside");
                         }
                         //refreshText("textarea");
                     }
                 }else{
-                    refreshText("textarea");
+                    //refreshText("textarea");
                 }
                 deltaList = [];
+                deltaPos = [];
                 dirty = false;
                 window.setTimeout(timerEvent,3000);
             }
             function convertPos(obj){
-                var col = obj.column;
+                var col = obj.row;
                 var total = 0;
                 if (col > 0)
-                for (var i = 0; i < col; i++) {
-                    total += editor.getSession().getDocument().getLine(i).length;
+                for (var i = 0; i < col-1; i++) {
+                    total += editor.getSession().getDocument().getLine(i).length +1;
                 }
-                total += obj.row;
-                //alert(total);
+                total += obj.column;
+                //alert(obj.column + " " + total);
                 return total;
             }
 //            var changing = false;
@@ -330,6 +342,10 @@
                     editor.setTheme("ace/theme/monokai");
                 }
                 theme_counter++;
+            }
+            
+            function displaySessionID(){
+                alert(SessionID);
             }
         </script>
     </body>

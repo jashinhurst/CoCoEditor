@@ -14,7 +14,9 @@
         <title>CoCoEditor</title>
         
         <script type="text/javascript">
-            
+            window.onload = function(){
+              refreshText();
+            };
             function addText(stringText) {
                 var xhttp = new XMLHttpRequest();
                 xhttp.onreadystatechange = function() {
@@ -113,9 +115,7 @@
         </div>
         
         <div id="info">
-            <p id="content" style="border: black solid 1px; background-color: #FFD">
-                This page is used to blow up the world.
-            </p>
+            <p id="content" style="border: black solid 1px; background-color: #FFD"></p>
             
         </div>
         <div>
@@ -127,6 +127,8 @@
             <button name="addText" onclick="doDelete()">Delete</button><br />
             <br />
             <button name="addText" onclick="refreshText('content')">Refresh</button><br />
+            <br />
+            <a href="editor.jsp"><button name="addText">Return to Editor</button></a><br />
             <br />
             <button name="addText" onclick="leave()">Leave Session</button><br />
         </div>
